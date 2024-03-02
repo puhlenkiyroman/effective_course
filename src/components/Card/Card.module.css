@@ -1,0 +1,21 @@
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 200px;
+    margin: 50px;
+}
+
+.card img {
+    width: 200px;
+    height: 130px;
+}
+
+.card h2 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.card p {
+    margin-top: 10px; /* Отступ от имени персонажа */
+    font-size: 14px;
+}
