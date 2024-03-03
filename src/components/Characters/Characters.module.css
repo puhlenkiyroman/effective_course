@@ -1,13 +1,19 @@
-.characters_container {
-    display: flex;
-    flex-wrap: wrap;
+.character_link {
+    display: inline-block;
+    margin-right: 10px;
+    color: black;
+}
+
+.character_link:hover {
+    color: black;
+    text-decoration: none;
 }
 
 h1 {
     margin-left: 50px;
 }
 
-.search-container {
+.search_container {
     display: flex;
     justify-content: space-between;
     margin: 10px 50px 0;

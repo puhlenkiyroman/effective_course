@@ -1,16 +1,16 @@
-import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
 
 function Header() {
     return (
         <header className={styles.header}>
-            <a href="/" className={styles.logoLink}>
+            <NavLink to="/" className={styles.logoLink}>
                 <img src="/marvel_logo.svg" alt="Marvel Logo" className={styles.logo} />
-            </a>
+            </NavLink>
             <nav className={styles.navigation}>
                 <ul className={styles.navList}>
-                    <li><a href="characters" className={styles.link}>Characters</a></li>
-                    <li><a href="comics" className={styles.link}>Comics</a></li>
+                    <li><NavLink to="/characters" className={styles.link}>Characters</NavLink></li>
+                    <li><NavLink to="/comics" className={styles.link}>Comics</NavLink></li>
                 </ul>
             </nav>
         </header>

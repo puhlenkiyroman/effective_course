@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Card.module.css';
 
 interface CardProps {
-    item: {
+    card: {
         id: number;
         title?: string;
         name?: string;
@@ -11,12 +11,12 @@ interface CardProps {
     };
 }
 
-const Card: React.FC<CardProps> = ({ item }) => {
+const Card: React.FC<CardProps> = ({ card }) => {
     return (
         <div className={styles.card}>
-            <img src={item.image} alt={item.title || item.name} />
-            <h2>{item.title || item.name}</h2>
-            <p>{item.description}</p>
+            <img src={card.image} alt={card.title || card.name} />
+            <h2>{card.title || card.name}</h2>
+            <p>{card.description}</p>
         </div>
     );
 };

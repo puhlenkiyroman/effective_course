@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
-import styles from "./Comics.module.css";
+import styles from './Comics.module.css';
 
-const comicsData: { id: number; title: string; description: string; image: string; }[] = [
+export const comicsData = [
     {
         id: 1,
         title: 'The Amazing Spider-Man',
         description: 'The Amazing Spider-Man is a comic book series featuring the Marvel Comics superhero Spider-Man.',
-        image: 'https://via.placeholder.com/150'
+        image: 'https://via.placeholder.com/150',
+        characters: [1] // Идентификаторы персонажей, появляющихся в этом комиксе
     },
 ];
 
@@ -38,7 +40,9 @@ function Comics() {
             </div>
             <div className={styles.comics_container}>
                 {comicsData.map(comic => (
-                    <Card key={comic.id} item={comic} />
+                    <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
+                        <Card card={comic} />
+                    </Link>
                 ))}
             </div>
         </>
