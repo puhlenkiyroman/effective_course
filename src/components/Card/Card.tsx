@@ -13,7 +13,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ card }) => {
     const MAX_DESCRIPTION_LENGTH = 100; // Максимальная длина описания
-    const MAX_TITLE_LENGTH = 18; // Максимальная длина названия
+    const MAX_TITLE_LENGTH = 17; // Максимальная длина названия
 
     // Функция для обрезки текста и добавления троеточия
     const truncateText = (text: string | undefined, maxLength: number) => {
