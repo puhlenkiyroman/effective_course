@@ -53,7 +53,7 @@ function Characters () {
 
     return (
         <>
-            <h1>Characters</h1>
+            <h1>Characters <span className={styles.charactersCount}>({charactersData.length}) </span> </h1>
             <div className={styles.search_container}>
                 <input
                     className={styles.search_input}

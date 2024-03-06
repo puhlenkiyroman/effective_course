@@ -1,6 +1,6 @@
 .card {
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 0px;
     width: 200px;
     height: 300px;
     margin: 50px 0 50px 50px;
@@ -13,13 +13,16 @@
 }
 
 .card h2 {
-    margin-top: 10px;
     font-size: 18px;
 }
 
 .card p {
-    margin-top: 10px; /* Отступ от имени персонажа */
     font-size: 14px;
     color: grey;
     font-weight: 300;
+}
+
+.card p, h2 {
+    margin-top: 10px; /* Отступ от имени персонажа */
+    margin-left: 10px;
 }

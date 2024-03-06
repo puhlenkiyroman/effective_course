@@ -16,20 +16,26 @@
 
 h1 {
     margin-left: 50px;
+    font-weight: 700;
 }
 
-.search-container {
+.comicsCount {
+    font-size: 32px;
+    color: grey;
+}
+
+.search_container {
     display: flex;
     justify-content: space-between;
     margin: 10px 50px 0;
 }
 
-.search-input {
+.search_input {
     width: calc(100% - 120px);
     margin-right: 20px;
 }
 
-.search-button {
+.search_button {
     width: 250px;
     background-color: orange;
     color: white;

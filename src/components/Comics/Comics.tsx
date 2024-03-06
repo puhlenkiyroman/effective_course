@@ -48,23 +48,24 @@ export const comicsData = [
 function Comics() {
     const [searchTerm, setSearchTerm] = useState('');
 
+
     const handleSearch = () => {
         console.log('Выполняется поиск по:', searchTerm);
     };
 
     return (
         <>
-            <h1>Comics</h1>
-            <div className={styles['search-container']}>
+            <h1>Comics <span className={styles.comicsCount}>({comicsData.length})</span></h1>
+            <div className={styles.search_container}>
                 <input
-                    className={styles['search-input']}
+                    className={styles.search_input}
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="   Search comics..."
                 />
                 <button
-                    className={styles['search-button']}
+                    className={styles.search_button}
                     onClick={handleSearch}
                 >
                     SEARCH
