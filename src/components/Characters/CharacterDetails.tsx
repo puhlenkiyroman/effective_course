@@ -24,19 +24,25 @@ function CharacterDetails() {
         comicsData.filter(comic => comic.characters.includes(characterId));
 
     return (
-        <div className={styles.card}>
-            <img src={character.image} alt={character.name} />
-            <h2>{character.name}</h2>
-            <p>{character.description}</p>
-            <h3>Appeared in Comics:</h3>
-            <ul>
-                {characterComics.map(comic => (
-                    <li key={comic.id}>
-                        <Link to={`/comics/${comic.id}`}>{comic.title}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <img className={styles.image} src={character.image} alt={character.name} />
+            <div className={styles.card}>
+                <div className={styles.character}>
+                    <h2>{character.name}</h2>
+                    <p>{character.description}</p>
+                </div>
+                <div className={styles.comics}>
+                    <h2>Comics:</h2>
+                    <ul>
+                        {characterComics.map(comic => (
+                            <li key={comic.id}>
+                                <Link to={`/comics/${comic.id}`}>{comic.title}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </>
     );
 };
 

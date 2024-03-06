@@ -10,6 +10,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Layout />}>
+                    <Route index element={<Characters />} /> {/*чтобы пока что на главной странице были characters*/}
                     <Route path="/comics" element={<Comics />} />
                     <Route path="/comics/:id" element={ <ComicsDetails />} />
                     <Route path="/characters" element={<Characters />} />

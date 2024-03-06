@@ -2,7 +2,9 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 200px;
-    margin: 50px;
+    height: 300px;
+    margin: 50px 0 50px 50px;
+    overflow: hidden;
 }
 
 .card img {
@@ -18,4 +20,6 @@
 .card p {
     margin-top: 10px; /* Отступ от имени персонажа */
     font-size: 14px;
+    color: grey;
+    font-weight: 300;
 }
