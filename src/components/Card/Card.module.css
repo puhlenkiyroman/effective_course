@@ -22,6 +22,10 @@
     font-weight: 300;
 }
 
+h3 {
+    color: black;
+}
+
 .card p, h3 {
     margin-top: 10px; /* Отступ от имени персонажа */
     margin-left: 10px;
