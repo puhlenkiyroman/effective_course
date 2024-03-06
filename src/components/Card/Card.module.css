@@ -22,7 +22,7 @@
     font-weight: 300;
 }
 
-.card p, h2 {
+.card p, h3 {
     margin-top: 10px; /* Отступ от имени персонажа */
     margin-left: 10px;
 }

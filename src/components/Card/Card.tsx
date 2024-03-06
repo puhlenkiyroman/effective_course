@@ -26,7 +26,7 @@ const Card: React.FC<CardProps> = ({ card }) => {
     return (
         <div className={styles.card}>
             <img src={card.image} alt={card.title || card.name} />
-            <h2>{truncateText(card.title || card.name, MAX_TITLE_LENGTH)}</h2>
+            <h3>{truncateText(card.title || card.name, MAX_TITLE_LENGTH)}</h3>
             <p>{truncateText(card.description, MAX_DESCRIPTION_LENGTH)}</p>
         </div>
     );
