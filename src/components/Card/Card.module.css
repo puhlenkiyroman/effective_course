@@ -26,7 +26,13 @@ h3 {
     color: black;
 }
 
-.card p, h3 {
+.card p, .card h3 {
     margin-top: 10px; /* Отступ от имени персонажа */
     margin-left: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* Указывает количество строк, после которых текст будет обрезан */
+    text-overflow: ellipsis;
+    white-space: normal;
 }

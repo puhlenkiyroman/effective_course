@@ -16,7 +16,7 @@ function Search() {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="   Search characters..."
+                placeholder="   Search"
             />
             <button
                 className={styles.search_button}
