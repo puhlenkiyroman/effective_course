@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Comics from './components/Comics';
-import ComicsDetails from "./components/Comics/ComicsDetails.tsx";
-import Characters from './components/Characters';
-import CharacterDetails from './components/Characters/CharacterDetails.tsx';
+import Comics from './routes/Comics';
+import ComicsDetails from "./routes/Comics/ComicsDetails.tsx";
+import Characters from './routes/Characters';
+import CharacterDetails from './routes/Characters/CharacterDetails.tsx';
 import Layout from './components/Layout';
 import './App.css';
 function App() {

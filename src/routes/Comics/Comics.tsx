@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import styles from './Comics.module.css';
@@ -7,6 +6,7 @@ import hulkImage from '../../assets/hulk.jpg';
 import ironManImage from '../../assets/ironman.jpg';
 import fantasticFourImage from '../../assets/fantasticfour.jpg';
 import deadpoolImage from '../../assets/deadpool.jpg';
+import Search from "../../components/Search";
 export const comicsData = [
     {
         id: 1,
@@ -46,31 +46,10 @@ export const comicsData = [
 ];
 
 function Comics() {
-    const [searchTerm, setSearchTerm] = useState('');
-
-
-    const handleSearch = () => {
-        console.log('Выполняется поиск по:', searchTerm);
-    };
-
     return (
         <>
             <h1>Comics <span className={styles.comicsCount}>({comicsData.length})</span></h1>
-            <div className={styles.search_container}>
-                <input
-                    className={styles.search_input}
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="   Search comics..."
-                />
-                <button
-                    className={styles.search_button}
-                    onClick={handleSearch}
-                >
-                    SEARCH
-                </button>
-            </div>
+            <Search/>
             <div className={styles.comics_container}>
                 {comicsData.map(comic => (
                     <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>

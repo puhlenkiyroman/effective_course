@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
-import { comicsData } from './Comics';
-import { charactersData } from '../Characters/Characters';
+import { comicsData } from './Comics.tsx';
+import { charactersData } from '../Characters/Characters.tsx';
 import styles from './ComicsDetails.module.css';
 
 function ComicsDetails () {

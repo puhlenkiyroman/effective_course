@@ -6,7 +6,7 @@ import hulkImage from '../../assets/hulk.jpg';
 import ironManImage from '../../assets/ironman.jpg';
 import fantasticFourImage from '../../assets/fantasticfour.jpg';
 import deadpoolImage from '../../assets/deadpool.jpg';
-import {useState} from "react";
+import Search from '../../components/Search'
 export const charactersData = [
     {
         id: 1,
@@ -45,30 +45,11 @@ export const charactersData = [
     },
 ];
 function Characters () {
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const handleSearch = () => {
-        console.log('Выполняется поиск по:', searchTerm);
-    };
 
     return (
         <>
             <h1>Characters <span className={styles.charactersCount}>({charactersData.length}) </span> </h1>
-            <div className={styles.search_container}>
-                <input
-                    className={styles.search_input}
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="   Search characters..."
-                />
-                <button
-                    className={styles.search_button}
-                    onClick={handleSearch}
-                >
-                    SEARCH
-                </button>
-            </div>
+            <Search/>
             <div className={styles.characters_container}>
                 {charactersData.map(character => (
                     <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
