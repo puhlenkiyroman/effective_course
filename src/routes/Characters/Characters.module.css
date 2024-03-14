@@ -1,0 +1,23 @@
+.characters_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.character_link {
+    display: inline-block;
+    margin-right: 10px;
+    color: black;
+}
+
+.character_link:hover {
+    text-decoration: none;
+}
+
+h1 {
+    margin-left: 50px;
+}
+
+.charactersCount {
+    font-size: 32px;
+    color: grey;
+}

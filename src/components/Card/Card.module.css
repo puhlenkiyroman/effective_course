@@ -1,0 +1,38 @@
+.card {
+    border: 1px solid #ccc;
+    border-radius: 0px;
+    width: 200px;
+    height: 300px;
+    margin: 50px 0 50px 50px;
+    overflow: hidden;
+}
+
+.card img {
+    width: 200px;
+    height: 130px;
+}
+
+.card h2 {
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 14px;
+    color: grey;
+    font-weight: 300;
+}
+
+h3 {
+    color: black;
+}
+
+.card p, .card h3 {
+    margin-top: 10px; /* Отступ от имени персонажа */
+    margin-left: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* Указывает количество строк, после которых текст будет обрезан */
+    text-overflow: ellipsis;
+    white-space: normal;
+}

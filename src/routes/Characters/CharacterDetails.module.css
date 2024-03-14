@@ -1,0 +1,26 @@
+.card {
+    padding: 50px;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.image {
+    width: 100%;
+    height: 350px;
+}
+
+.comics {
+    margin-left: 250px;
+}
+
+.comics li {
+    list-style-type: none;
+}
+
+.comics ul {
+    padding-inline-start: 0;
+}
+
+.character {
+    max-width: 600px;
+}

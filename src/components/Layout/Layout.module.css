@@ -1,0 +1,9 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Устанавливаем минимальную высоту, чтобы Layout занимал всю высоту экрана */
+}
+
+.content {
+    flex: 1;
+}

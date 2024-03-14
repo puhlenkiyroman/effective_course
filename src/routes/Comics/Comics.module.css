@@ -1,0 +1,25 @@
+.comic_link {
+    display: inline-block;
+    margin-right: 10px;
+    color: black;
+}
+
+.comic_link:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.comics_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+h1 {
+    margin-left: 50px;
+    font-weight: 700;
+}
+
+.comicsCount {
+    font-size: 32px;
+    color: grey;
+}

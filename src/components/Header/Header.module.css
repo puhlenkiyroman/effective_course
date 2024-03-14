@@ -1,0 +1,42 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 25px;
+    background-color: red;
+}
+
+.logo {
+    color: red;
+    height: 50px;
+    width: auto;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+}
+
+.navList {
+    font-size: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 30px 0 0;
+    display: flex;
+    gap: 25px;
+}
+
+.logoLink {
+    text-decoration: none;
+}
+
+.link {
+    margin-right: 20px;
+    text-decoration: none;
+    color: white;
+}
+
+.link:hover {
+    color: yellow;
+}

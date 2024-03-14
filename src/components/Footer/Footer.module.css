@@ -1,0 +1,28 @@
+.footer {
+    width: 100%;
+    background-color: grey;
+    padding: 20px;
+    text-align: left;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+}
+
+.link {
+    color: white;
+}
+
+.link:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.data {
+    color:white;
+}
+
+a:hover {
+    text-decoration: underline;
+}
