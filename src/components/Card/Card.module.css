@@ -36,3 +36,28 @@ h3 {
     text-overflow: ellipsis;
     white-space: normal;
 }
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 125px;
+        height: 250px;
+    }
+    .card img {
+        width: 125px;
+    }
+    .card h3 {
+        font-size: 12px;
+    }
+
+    .card p, .card h3 {
+        margin-top: 10px; /* Отступ от имени персонажа */
+        margin-left: 10px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3; /* Указывает количество строк, после которых текст будет обрезан */
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+
+}
