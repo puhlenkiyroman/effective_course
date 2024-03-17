@@ -1,13 +1,23 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import styles from "./Search.module.css";
+import { useDebounce } from "@uidotdev/usehooks";
 
-function Search() {
+interface Props {
+    onSearch: (searchTerm: string) => void;
+}
 
+function Search({ onSearch }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = () => {
-        console.log('Выполняется поиск по:', searchTerm);
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
     };
+
+    const debouncedSearchTerm = useDebounce(searchTerm, 3000);
+
+    useEffect(() => {
+        onSearch(debouncedSearchTerm);
+    }, [debouncedSearchTerm, onSearch]);
 
     return (
         <div className={styles.search_container}>
@@ -15,12 +25,11 @@ function Search() {
                 className={styles.search_input}
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="   Search"
+                onChange={handleSearchChange}
+                placeholder="Search"
             />
             <button
                 className={styles.search_button}
-                onClick={handleSearch}
             >
                 SEARCH
             </button>
