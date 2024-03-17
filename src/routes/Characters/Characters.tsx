@@ -45,7 +45,6 @@ export const charactersData = [
     },
 ];
 function Characters () {
-
     return (
         <>
             <h1>Characters <span className={styles.charactersCount}>({charactersData.length}) </span> </h1>

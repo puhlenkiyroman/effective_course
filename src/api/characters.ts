@@ -1,17 +1,27 @@
-import axios from '../api/helpers/axios.ts'
-
+import axios from '../api/helpers/axios.ts';
 import { Character } from '../types/characters.ts';
 
 export default {
+    // Функция для получения списка персонажей
     async getCharactersList(): Promise<Character[]> {
-        const response = await axios.get(`/`);
+        try {
+            const response = await axios.get('/v1/public/characters');
 
-        return response.data;
+            return response.data.data.results;
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+            throw error;
+        }
     },
 
     async getCharacter(characterId: number): Promise<Character> {
-        const response = await axios.post(`//${characterId}`);
+        try {
+            const response = await axios.get(`/v1/public/characters/${characterId}`);
 
-        return response.data;
+            return response.data.data.results;
+        } catch (error) {
+            console.error('Error fetching character:', error);
+            throw error;
+        }
     }
 };
