@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import apiCharacters from '../../api/characters';
 import apiComics from '../../api/comics';
 import styles from './CharacterDetails.module.css';
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function CharacterDetails() {
     const {id} = useParams<{ id: string | undefined }>();
@@ -18,7 +21,7 @@ function CharacterDetails() {
                 const fetchedComics = await apiComics.getComicsByCharacter(parseInt(id!, 10));
                 setCharacterComics(fetchedComics);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                toast.error('Failed to fetch comic details. Please try again later.');
             }
         }
 

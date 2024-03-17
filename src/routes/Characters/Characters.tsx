@@ -6,6 +6,9 @@ import Search from '../../components/Search';
 import apiCharacters from '../../api/characters';
 import { Character } from '../../types/characters';
 import { useDebounce } from "@uidotdev/usehooks";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Characters() {
     const [characters, setCharacters]
@@ -20,7 +23,7 @@ function Characters() {
             const charactersList = await apiCharacters.getCharactersList();
             setCharacters(charactersList);
         } catch (error) {
-            console.error('Error fetching characters:', error);
+            toast.error('Failed to fetch characters. Please try again later.');
         }
     }
 

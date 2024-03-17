@@ -6,6 +6,9 @@ import Search from '../../components/Search';
 import apiComics from '../../api/comics';
 import { Comic } from '../../types/comics';
 import { useDebounce } from "@uidotdev/usehooks";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Comics() {
     const [comics, setComics] = useState<Comic[]>([]);
@@ -16,9 +19,9 @@ function Comics() {
         try {
             const ComicsList = await apiComics.getComicsList();
             setComics(ComicsList);
-            setFilteredComics(ComicsList); // Инициализируем отфильтрованный список
+            setFilteredComics(ComicsList);
         } catch (error) {
-            console.error('Error fetching comics:', error);
+            toast.error('Failed to fetch comics. Please try again later.');
         }
     }
 

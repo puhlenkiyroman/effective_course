@@ -7,7 +7,6 @@ export default {
     async getCharactersList(): Promise<Character[]> {
         try {
             const response = await axios.get('/v1/public/characters');
-
             return response.data.data.results;
         } catch (error) {
             console.error('Error fetching characters:', error);
@@ -32,7 +31,6 @@ export default {
     async getCharacterByComic(comicId: number): Promise<Character[]> {
         try {
             const response = await axios.get(`/v1/public/comics/${comicId}/characters`);
-
             return response.data.data.results;
         } catch (error) {
             console.error('Error fetching characters by comic:', error);
