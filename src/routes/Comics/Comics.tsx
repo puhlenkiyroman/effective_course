@@ -5,21 +5,18 @@ import styles from './Comics.module.css';
 import Search from '../../components/Search';
 import apiComics from '../../api/comics';
 import { Comic } from '../../types/comics';
-import { useDebounce } from "@uidotdev/usehooks";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import useNameStartsWith from '../../hooks/useNameStartsWith';
 
 function Comics() {
     const [comics, setComics] = useState<Comic[]>([]);
-    const [filteredComics, setFilteredComics] = useState<Comic[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     async function fetchComics() {
         try {
             const ComicsList = await apiComics.getComicsList();
             setComics(ComicsList);
-            setFilteredComics(ComicsList);
         } catch (error) {
             toast.error('Failed to fetch comics. Please try again later.');
         }
@@ -29,26 +26,13 @@ function Comics() {
         fetchComics();
     }, []);
 
-
-    // Используем хук useDebounce для задержки поиска
-    const debouncedSearchTerm = useDebounce(searchTerm, 3000);
-
     // Функция для выполнения поиска
     const handleSearch = (searchTerm: string) => {
         setSearchTerm(searchTerm);
     };
 
-    // Фильтрация комиксов по поисковому запросу
-    useEffect(() => {
-        // Проверяем, что поисковый запрос не пустой
-        if (debouncedSearchTerm.trim() !== '') {
-            const filtered = comics.filter(comic => comic.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase()));
-            setFilteredComics(filtered);
-        } else {
-            // Если поисковый запрос пуст, показываем все комиксы
-            setFilteredComics(comics);
-        }
-    }, [debouncedSearchTerm, comics]);
+    // Фильтрация комиксов по началу названия
+    const filteredComics = useNameStartsWith(comics, searchTerm, 'title');
 
     return (
         <>

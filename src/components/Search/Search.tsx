@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from "./Search.module.css";
-import { useDebounce } from "@uidotdev/usehooks";
+import useDebounce from "../../hooks/useDebounce";
 
 interface Props {
     onSearch: (searchTerm: string) => void;

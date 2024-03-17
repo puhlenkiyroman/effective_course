@@ -5,15 +5,12 @@ import styles from './Characters.module.css';
 import Search from '../../components/Search';
 import apiCharacters from '../../api/characters';
 import { Character } from '../../types/characters';
-import { useDebounce } from "@uidotdev/usehooks";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import useNameStartsWith from '../../hooks/useNameStartsWith';
 
 function Characters() {
     const [characters, setCharacters]
-        = useState<Character[]>([]);
-    const [filteredCharacters, setFilteredCharacters]
         = useState<Character[]>([]);
     const [searchTerm, setSearchTerm]
         = useState<string>('');
@@ -31,26 +28,13 @@ function Characters() {
         fetchCharacters();
     }, []);
 
-
-    // Используем хук useDebounce для задержки поиска
-    const debouncedSearchTerm = useDebounce(searchTerm, 3000);
-
     // Функция для выполнения поиска
     const handleSearch = (searchTerm: string) => {
         setSearchTerm(searchTerm);
     };
 
-    // Фильтрация персонажей по поисковому запросу
-    useEffect(() => {
-        // Проверяем, что поисковый запрос не пустой
-        if (debouncedSearchTerm.trim() !== '') {
-            const filtered = characters.filter(comic => comic.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()));
-            setFilteredCharacters(filtered);
-        } else {
-            // Если поисковый запрос пуст, показываем всех персонажей
-            setFilteredCharacters(characters);
-        }
-    }, [debouncedSearchTerm, characters]);
+    // Фильтрация персонажей по началу названия
+    const filteredCharacters = useNameStartsWith(characters, searchTerm, 'name');
 
     return (
         <>
