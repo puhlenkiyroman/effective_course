@@ -59,5 +59,17 @@ h3 {
         text-overflow: ellipsis;
         white-space: normal;
     }
+}
 
+@media screen and (max-width: 375px) {
+    .card {
+        width: 200px;
+        height: 275px;
+    }
+    .card img {
+        width: 200px;
+    }
+    .card h3 {
+        font-size: 12px;
+    }
 }

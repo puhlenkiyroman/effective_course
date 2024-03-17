@@ -22,12 +22,21 @@ h1 {
     color: grey;
 }
 
+@media screen and (max-width: 1025px) {
+    .characters_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
 @media screen and (max-width: 426px) {
     h1 {
-        font-size: 28px !important; /* Уменьшение размера шрифта */
+        font-size: 38px !important;
     }
     .comicsCount {
-        font-size: 20px;
+        font-size: 24px;
         color: grey;
     }
 }

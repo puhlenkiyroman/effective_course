@@ -16,15 +16,19 @@
     border-radius: 0;
 }
 
-
 @media screen and (max-width: 768px) {
     .search_button {
         width: 225px;
+    }
+
+    .search_input {
+        width: calc(100% - 50px);
+        margin-right: 20px;
     }
 }
 
 @media screen and (max-width: 600px) {
     .search_button {
-        width: 175px;
+        width: 125px;
     }
 }
