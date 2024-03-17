@@ -13,7 +13,7 @@
 }
 
 .card h2 {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .card p {
@@ -32,7 +32,7 @@ h3 {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* Указывает количество строк, после которых текст будет обрезан */
+    -webkit-line-clamp: 3; /* Указывает количество строк, после которых текст будет обрезан */
     text-overflow: ellipsis;
     white-space: normal;
 }

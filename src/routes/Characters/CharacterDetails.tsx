@@ -1,31 +1,45 @@
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { charactersData } from './Characters.tsx';
-import { comicsData } from "../Comics/Comics.tsx";
+import apiCharacters from '../../api/characters';
+import apiComics from '../../api/comics';
 import styles from './CharacterDetails.module.css';
 
 function CharacterDetails() {
-    const { id } = useParams<{ id: string | undefined }>();
+    const {id} = useParams<{ id: string | undefined }>();
+    const [character, setCharacter] = useState<any>(null);
+    const [characterComics, setCharacterComics] = useState<any[]>([]);
 
-    if (!id) {
-        return <div>Invalid character ID</div>;
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const fetchedCharacter = await apiCharacters.getCharacter(parseInt(id!, 10));
+                setCharacter(fetchedCharacter);
+
+                const fetchedComics = await apiComics.getComicsByCharacter(parseInt(id!, 10));
+                setCharacterComics(fetchedComics);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        if (id) {
+            fetchData();
+        }
+    }, [id]);
+
+    if (!id || !character) {
+        return <div>Loading...</div>;
     }
 
-    const characterId = parseInt(id, 10);
-
-    const character
-        = charactersData.find(character => character.id === characterId);
-
-    if (!character) {
-        return <div>Character not found</div>;
-    }
-
-    // Фильтруем комиксы, в которых появляется данный персонаж
-    const characterComics =
-        comicsData.filter(comic => comic.characters.includes(characterId));
+    const imagePath = character.thumbnail
+        ? `${character.thumbnail.path}.${character.thumbnail.extension}`
+        : null;
 
     return (
         <>
-            <img className={styles.image} src={character.image} alt={character.name} />
+            {imagePath && (
+                <img className={styles.image} src={imagePath} alt={character.name}/>
+            )}
             <div className={styles.card}>
                 <div className={styles.character}>
                     <h2>{character.name}</h2>
@@ -44,6 +58,5 @@ function CharacterDetails() {
             </div>
         </>
     );
-};
-
+}
 export default CharacterDetails;
