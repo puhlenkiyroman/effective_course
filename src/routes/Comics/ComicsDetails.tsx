@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import styles from './ComicsDetails.module.css';
-import apiComics from '../../api/comics';
-import apiCharacters from '../../api/characters';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { comicsStore } from "../../stores/ComicsStore";
+import { observer } from "mobx-react-lite";
 
 function ComicsDetails() {
     const { id } = useParams<{ id: string | undefined }>();
@@ -14,20 +10,16 @@ function ComicsDetails() {
     const [comicCharacters, setComicCharacters] = useState<any[]>([]);
 
     useEffect(() => {
-        async function fetchComic() {
-            try {
-                const fetchedComic = await apiComics.getComic(parseInt(id!, 10));
-                setComic(fetchedComic);
+        async function fetchData() {
+            const fetchedComic = await comicsStore.fetchComic(parseInt(id!, 10));
+            setComic(fetchedComic);
 
-                const fetchedComicCharacters = await apiCharacters.getCharacterByComic(parseInt(id!, 10));
-                setComicCharacters(fetchedComicCharacters);
-            } catch (error) {
-                toast.error('Failed to fetch character details. Please try again later.');
-            }
+            const fetchedComicCharacters = await comicsStore.fetchCharactersByComic(parseInt(id!, 10));
+            setComicCharacters(fetchedComicCharacters);
         }
 
         if (id) {
-            fetchComic();
+            fetchData();
         }
     }, [id]);
 
@@ -60,4 +52,4 @@ function ComicsDetails() {
     );
 }
 
-export default ComicsDetails;
+export default observer(ComicsDetails);

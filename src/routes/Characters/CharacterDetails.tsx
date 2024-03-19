@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import apiCharacters from '../../api/characters';
-import apiComics from '../../api/comics';
 import styles from './CharacterDetails.module.css';
-import {toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-
+import { charactersStore } from "../../stores/CharactersStore.ts";
+import { observer } from "mobx-react-lite";
 
 function CharacterDetails() {
     const {id} = useParams<{ id: string | undefined }>();
@@ -14,15 +11,11 @@ function CharacterDetails() {
 
     useEffect(() => {
         async function fetchData() {
-            try {
-                const fetchedCharacter = await apiCharacters.getCharacter(parseInt(id!, 10));
-                setCharacter(fetchedCharacter);
+            const fetchedCharacter = await charactersStore.fetchCharacter(parseInt(id!, 10));
+            setCharacter(fetchedCharacter);
 
-                const fetchedComics = await apiComics.getComicsByCharacter(parseInt(id!, 10));
-                setCharacterComics(fetchedComics);
-            } catch (error) {
-                toast.error('Failed to fetch comic details. Please try again later.');
-            }
+            const fetchedComics = await charactersStore.fetchComicsByCharacter(parseInt(id!, 10));
+            setCharacterComics(fetchedComics);
         }
 
         if (id) {
@@ -62,4 +55,4 @@ function CharacterDetails() {
         </>
     );
 }
-export default CharacterDetails;
+export default observer(CharacterDetails);

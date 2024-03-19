@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './Card.module.css';
-import { Comic } from '..//../types/comics';
-import { Character } from '../../types/characters';
+import { IComic } from '..//../types/comics';
+import { ICharacter } from '../../types/characters';
 
 interface CardProps {
-    card: Comic | Character;
+    card: IComic | ICharacter;
 }
 const Card: React.FC<CardProps> = ({ card }) => {
     const imagePath = `${card.thumbnail.path}.${card.thumbnail.extension}`;

@@ -1,7 +1,9 @@
-import character from '../api/characters';
+import characters from '../api/characters';
 import comics from '../api/comics';
 
-export default {
-    character,
+const api = {
+    characters,
     comics
 };
+
+export default api;

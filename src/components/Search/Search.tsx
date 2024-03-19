@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styles from "./Search.module.css";
-import useDebounce from "../../hooks/useDebounce";
 
 interface Props {
     onSearch: (searchTerm: string) => void;
@@ -13,11 +12,9 @@ function Search({ onSearch }: Props) {
         setSearchTerm(e.target.value);
     };
 
-    const debouncedSearchTerm = useDebounce(searchTerm, 3000);
-
-    useEffect(() => {
-        onSearch(debouncedSearchTerm);
-    }, [debouncedSearchTerm, onSearch]);
+    const handleSearchClick = () => {
+        onSearch(searchTerm);
+    };
 
     return (
         <div className={styles.search_container}>
@@ -30,6 +27,7 @@ function Search({ onSearch }: Props) {
             />
             <button
                 className={styles.search_button}
+                onClick={handleSearchClick}
             >
                 SEARCH
             </button>

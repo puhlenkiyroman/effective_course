@@ -1,38 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import styles from './Comics.module.css';
 import Search from '../../components/Search';
-import apiComics from '../../api/comics';
-import { Comic } from '../../types/comics';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { comicsStore } from "../../stores/ComicsStore";
+import { observer } from 'mobx-react-lite';
 import useNameStartsWith from '../../hooks/useNameStartsWith';
 
 function Comics() {
-    const [comics, setComics] = useState<Comic[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>('');
-
-    async function fetchComics() {
-        try {
-            const ComicsList = await apiComics.getComicsList();
-            setComics(ComicsList);
-        } catch (error) {
-            toast.error('Failed to fetch comics. Please try again later.');
-        }
-    }
 
     useEffect(() => {
-        fetchComics();
+        comicsStore.fetchComics();
     }, []);
+
+    // Фильтрация комиксов по началу названия
+    const filteredComics = useNameStartsWith(comicsStore.comics, comicsStore.searchTerm, 'title');
 
     // Функция для выполнения поиска
     const handleSearch = (searchTerm: string) => {
-        setSearchTerm(searchTerm);
+        comicsStore.setSearchTerm(searchTerm);
     };
-
-    // Фильтрация комиксов по началу названия
-    const filteredComics = useNameStartsWith(comics, searchTerm, 'title');
 
     return (
         <>
@@ -49,4 +36,4 @@ function Comics() {
     );
 }
 
-export default Comics;
+export default observer(Comics);
