@@ -6,17 +6,19 @@ import { ICharacter } from '../../types/characters';
 interface CardProps {
     card: IComic | ICharacter;
 }
+
 const Card: React.FC<CardProps> = ({ card }) => {
     const imagePath = `${card.thumbnail.path}.${card.thumbnail.extension}`;
+    const name = 'name' in card ? card.name : '';
+    const title = 'title' in card ? card.title : '';
 
     return (
         <div className={styles.card}>
-            <img src={imagePath} alt={card.name || card.title} />
-            <h3>{card.name || card.title}</h3>
-            <p>{card.description}</p>
+            <img src={imagePath} alt={name || title} />
+            <h3>{name || title}</h3>
+            <p>{'description' in card ? card.description : ''}</p>
         </div>
     );
 };
-
 
 export default Card;

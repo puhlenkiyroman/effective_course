@@ -37,6 +37,10 @@ h3 {
     white-space: normal;
 }
 
+.card h3 {
+    -webkit-line-clamp: 2;
+}
+
 @media screen and (max-width: 768px) {
     .card {
         width: 125px;

@@ -28,8 +28,6 @@ h1 {
     display: flex;
     list-style: none;
     justify-content: center;
-    padding: 0;
-    margin: 0;
 }
 
 .page {
@@ -38,10 +36,25 @@ h1 {
     padding: 15px;
     cursor: pointer;
     user-select: none;
+    color: red;
 }
 
 .nextLabel {
     margin-bottom: 50px;
+}
+
+.page a, .page a:hover {
+    color:red;
+    text-decoration: none;
+}
+
+.nextLabel {
+    margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+    color: red;
 }
 
 .page:hover {

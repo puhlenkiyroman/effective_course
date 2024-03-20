@@ -53,7 +53,7 @@ function Characters() {
                     containerClassName={styles.paginationContainer}
                     pageClassName={styles.page}
                     previousLabel={""}
-                    nextLabel={">"}
+                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}> {">"} </span>}
                 />
             </div>
         </>
