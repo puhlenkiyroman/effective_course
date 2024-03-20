@@ -26,10 +26,10 @@ class CharactersStore {
     async fetchCharacters(offset: number): Promise<void> {
         try {
             this.loading = true;
-            const charactersList = await api.characters.getCharactersList(offset); // Передаем offset в API
+            const charactersList = await api.characters.getCharactersList(offset);
             runInAction(() => {
                 this.characters = charactersList;
-                this.totalCharacters = charactersList.length; // Обновляем общее количество персонажей
+                this.totalCharacters = charactersList.length;
             });
         } catch (error) {
             toast.error('Failed to fetch characters. Please try again later.');
