@@ -33,6 +33,7 @@ function Comics() {
     };
 
     const isFirstPage = currentPage === 0;
+    //const isLastPage = currentPage === setTotalPages.length;
 
     return (
         <>
@@ -55,7 +56,7 @@ function Comics() {
                     pageClassName={styles.page}
                     previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {"<"} </span>}
-                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    nextLabel={/* isLastPage ? '' : */ <span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {">"} </span>}
                 />
             </div>
