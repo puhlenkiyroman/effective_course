@@ -4,10 +4,11 @@ import axios from '../api/helpers/axios.ts';
 import { ICharacter } from '../types/characters.ts';
 
 export default {
-    async getCharactersList(): Promise<ICharacter[]> {
-        const response = await axios.get('/v1/public/characters');
+    async getCharactersList(offset: number = 0, limit: number = 60): Promise<ICharacter[]> {
+        const response = await axios.get(`/v1/public/characters?offset=${offset}&limit=${limit}`);
         return response.data.data.results;
     },
+
 
     async getCharacter(characterId: number): Promise<ICharacter | null> {
         const response = await axios.get(`/v1/public/characters/${characterId}`);

@@ -9,6 +9,7 @@ class ComicsStore {
     comics: IComic[] = [];
     loading: boolean = false;
     searchTerm: string = '';
+    totalComics: number = 0;
 
     constructor() {
         makeObservable(this, {
@@ -16,18 +17,20 @@ class ComicsStore {
             loading: observable,
             searchTerm: observable,
             fetchComics: action,
-            // fetchComic: action,
-            // fetchCharactersByComic: action,
+            fetchComic: action,
+            fetchCharactersByComic: action,
+            totalComics: observable,
             setSearchTerm: action
         });
     }
 
-    async fetchComics(): Promise<void> {
+    async fetchComics(offset: number): Promise<void> {
         try {
             this.loading = true;
-            const comicsList = await api.comics.getComicsList();
+            const comicsList = await api.comics.getComicsList(offset);
             runInAction(() => {
                 this.comics = comicsList;
+                this.totalComics = comicsList.length; // Обновляем общее количество персонажей
             });
         } catch (error) {
             toast.error('Failed to fetch comics. Please try again later.');

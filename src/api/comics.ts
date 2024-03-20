@@ -4,8 +4,8 @@ import axios from '../api/helpers/axios.ts';
 import { IComic } from '../types/comics';
 
 export default {
-    async getComicsList(): Promise<IComic[]> {
-        const response = await axios.get('/v1/public/comics');
+    async getComicsList(offset: number = 0, limit: number = 60): Promise<IComic[]> {
+        const response = await axios.get(`/v1/public/comics?limit=${limit}&offset=${offset}`);
         return response.data.data.results;
     },
 

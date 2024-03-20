@@ -2,33 +2,34 @@ import { observable, action, makeObservable, runInAction } from 'mobx';
 import api from '../api';
 import { toast } from 'react-toastify';
 
-//Types
+// Types
 import { ICharacter } from '../types/characters';
-import { IComic } from "../types/comics";
+import { IComic } from "../types/comics.ts";
 
 class CharactersStore {
     characters: ICharacter[] = [];
     loading: boolean = false;
     searchTerm: string = '';
+    totalCharacters: number = 0;
 
     constructor() {
         makeObservable(this, {
             characters: observable,
             loading: observable,
             searchTerm: observable,
+            totalCharacters: observable,
             fetchCharacters: action,
-            fetchCharacter: action,
-            fetchComicsByCharacter: action,
             setSearchTerm: action,
         });
     }
 
-    async fetchCharacters(): Promise<void> {
+    async fetchCharacters(offset: number): Promise<void> {
         try {
             this.loading = true;
-            const charactersList = await api.characters.getCharactersList();
+            const charactersList = await api.characters.getCharactersList(offset); // Передаем offset в API
             runInAction(() => {
                 this.characters = charactersList;
+                this.totalCharacters = charactersList.length; // Обновляем общее количество персонажей
             });
         } catch (error) {
             toast.error('Failed to fetch characters. Please try again later.');
