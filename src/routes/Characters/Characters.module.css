@@ -42,6 +42,7 @@ h1 {
 }
 
 .page a, .page a:hover {
+    padding: 15px;
     color:red;
     text-decoration: none;
 }
@@ -55,10 +56,9 @@ h1 {
     color: red;
 }
 
-.page:hover {
+.page a:hover {
     background-color: yellow;
 }
-
 
 @media screen and (max-width: 1025px) {
     .characters_container {

@@ -24,14 +24,17 @@ function Characters() {
         setTotalPages(Math.ceil(filteredCharacters.length / ITEMS_PER_PAGE));
     }, [filteredCharacters.length]);
 
-    const handlePageChange = (selected: { selected: number }) => {
-        setCurrentPage(selected.selected);
+    // Почему-то долго работает...
+    const handlePageChange = ({ selected }: { selected: number }) => {
+        setCurrentPage(selected);
     };
 
     // Функция для выполнения поиска
     const handleSearch = (searchTerm: string) => {
         charactersStore.setSearchTerm(searchTerm);
     };
+
+    const isFirstPage = currentPage === 0;
 
     return (
         <>
@@ -52,8 +55,10 @@ function Characters() {
                     pageCount={totalPages}
                     containerClassName={styles.paginationContainer}
                     pageClassName={styles.page}
-                    previousLabel={""}
-                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}> {">"} </span>}
+                    previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                        {"<"} </span>}
+                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                        {">"} </span>}
                 />
             </div>
         </>

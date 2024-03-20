@@ -32,6 +32,8 @@ function Comics() {
         comicsStore.setSearchTerm(searchTerm);
     };
 
+    const isFirstPage = currentPage === 0;
+
     return (
         <>
             <h1>Comics <span className={styles.comicsCount}>({filteredComics.length})</span></h1>
@@ -51,8 +53,10 @@ function Comics() {
                     pageCount={totalPages}
                     containerClassName={styles.paginationContainer}
                     pageClassName={styles.page}
-                    previousLabel={""}
-                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}> {">"} </span>}
+                    previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                        {"<"} </span>}
+                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                        {">"} </span>}
                 />
             </div>
         </>
