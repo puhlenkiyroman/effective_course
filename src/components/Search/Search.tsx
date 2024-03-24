@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from "./Search.module.css";
+import useDebounce from "../../hooks/useDebounce.ts";
 
 interface Props {
     onSearch: (searchTerm: string) => void;
@@ -8,6 +9,8 @@ interface Props {
 function Search({ onSearch }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
 
+    const debouncedSearchTerm = useDebounce(searchTerm, 3000);
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
@@ -15,6 +18,10 @@ function Search({ onSearch }: Props) {
     const handleSearchClick = () => {
         onSearch(searchTerm);
     };
+
+    useEffect(() => {
+        onSearch(debouncedSearchTerm);
+    }, [debouncedSearchTerm, onSearch]);
 
     return (
         <div className={styles.search_container}>
