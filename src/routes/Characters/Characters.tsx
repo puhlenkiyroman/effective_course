@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import ReactPaginate from "react-paginate";
 import useNameStartsWith from "../../hooks/useNameStartsWith";
 
-export const ITEMS_PER_PAGE = 20; // Количество персонажей на странице
+export const ITEMS_PER_PAGE = 25; // Количество персонажей на странице
 
 function Characters() {
     const [currentPage, setCurrentPage] = useState(0);
@@ -21,28 +21,23 @@ function Characters() {
     }, [currentPage]);
 
     useEffect(() => {
-        setTotalPages(Math.ceil(filteredCharacters.length / ITEMS_PER_PAGE));
-    }, [filteredCharacters.length]);
+        const totalCharacters = charactersStore.totalCharacters;
+        const calculatedTotalPages = Math.ceil(totalCharacters / ITEMS_PER_PAGE);
+        setTotalPages(calculatedTotalPages);
+    }, [charactersStore.totalCharacters]);
 
-    // Почему-то долго работает...
     const handlePageChange = ({ selected }: { selected: number }) => {
         setCurrentPage(selected);
     };
 
-    // Функция для выполнения поиска
-    const handleSearch = (searchTerm: string) => {
-        charactersStore.setSearchTerm(searchTerm);
-    };
-
     const isFirstPage = currentPage === 0;
-    //const isLastPage = currentPage === setTotalPages.length;
 
     return (
         <>
-            <h1>Characters <span className={styles.charactersCount}>({filteredCharacters.length})</span></h1>
-            <Search onSearch={handleSearch} />
+            <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
+            <Search onSearch={charactersStore.setSearchTerm} />
             <div className={styles.characters_container}>
-                {filteredCharacters.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE).map(character => (
+                {filteredCharacters.map(character => (
                     <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
                         <Card card={character} />
                     </Link>
@@ -58,7 +53,7 @@ function Characters() {
                     pageClassName={styles.page}
                     previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {"<"} </span>}
-                    nextLabel={/* isLastPage ? '' : */ <span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {">"} </span>}
                 />
             </div>

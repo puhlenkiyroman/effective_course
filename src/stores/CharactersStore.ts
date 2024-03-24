@@ -1,10 +1,9 @@
 import { observable, action, makeObservable, runInAction } from 'mobx';
 import api from '../api';
 import { toast } from 'react-toastify';
-
-// Types
+//Types
 import { ICharacter } from '../types/characters';
-import { IComic } from "../types/comics.ts";
+import { IComic } from "../types/comics";
 
 class CharactersStore {
     characters: ICharacter[] = [];
@@ -26,10 +25,10 @@ class CharactersStore {
     async fetchCharacters(offset: number): Promise<void> {
         try {
             this.loading = true;
-            const charactersList = await api.characters.getCharactersList(offset);
+            const { data, total } = await api.characters.getCharactersList(offset);
             runInAction(() => {
-                this.characters = charactersList;
-                this.totalCharacters = charactersList.length;
+                this.characters = data;
+                this.totalCharacters = total;
             });
         } catch (error) {
             toast.error('Failed to fetch characters. Please try again later.');

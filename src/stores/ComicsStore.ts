@@ -27,10 +27,10 @@ class ComicsStore {
     async fetchComics(offset: number): Promise<void> {
         try {
             this.loading = true;
-            const comicsList = await api.comics.getComicsList(offset);
+            const { data, total } = await api.comics.getComicsList(offset);
             runInAction(() => {
-                this.comics = comicsList;
-                this.totalComics = comicsList.length; // Обновляем общее количество персонажей
+                this.comics = data;
+                this.totalComics = total;
             });
         } catch (error) {
             toast.error('Failed to fetch comics. Please try again later.');

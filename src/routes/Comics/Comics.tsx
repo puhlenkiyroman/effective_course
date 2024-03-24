@@ -8,7 +8,8 @@ import { observer } from 'mobx-react-lite';
 import useNameStartsWith from '../../hooks/useNameStartsWith';
 import ReactPaginate from "react-paginate";
 
-export const ITEMS_PER_PAGE = 20; // Количество персонажей на странице
+export const ITEMS_PER_PAGE = 25; // Количество комиксов на странице
+
 function Comics() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -20,25 +21,21 @@ function Comics() {
     }, [currentPage]);
 
     useEffect(() => {
-        setTotalPages(Math.ceil(filteredComics.length / ITEMS_PER_PAGE));
-    }, [filteredComics.length]);
+        const totalComics = comicsStore.totalComics;
+        const calculatedTotalPages = Math.ceil(totalComics / ITEMS_PER_PAGE);
+        setTotalPages(calculatedTotalPages);
+    }, [comicsStore.totalComics]);
 
-    const handlePageChange = (selected: { selected: number }) => {
-        setCurrentPage(selected.selected);
-    };
-
-    // Функция для выполнения поиска
-    const handleSearch = (searchTerm: string) => {
-        comicsStore.setSearchTerm(searchTerm);
+    const handlePageChange = ({selected}: { selected: number }) => {
+        setCurrentPage(selected);
     };
 
     const isFirstPage = currentPage === 0;
-    //const isLastPage = currentPage === setTotalPages.length;
 
     return (
         <>
-            <h1>Comics <span className={styles.comicsCount}>({filteredComics.length})</span></h1>
-            <Search onSearch={handleSearch} />
+            <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
+            <Search onSearch={comicsStore.setSearchTerm} />
             <div className={styles.comics_container}>
                 {filteredComics.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE).map(comic => (
                     <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
