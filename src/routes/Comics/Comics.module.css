@@ -69,6 +69,34 @@ h1 {
         justify-content: center;
         align-items: center;
     }
+
+    .page {
+        margin-right: 25px;
+        margin-bottom: 50px;
+        padding: 10px;
+        cursor: pointer;
+        user-select: none;
+        color: red;
+    }
+
+    .nextLabel {
+        margin-bottom: 50px;
+    }
+
+    .page a, .page a:hover {
+        padding: 13px;
+        color:red;
+        text-decoration: none;
+    }
+
+    .nextLabel {
+        margin-right: 10px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        user-select: none;
+        color: red;
+    }
 }
 
 @media screen and (max-width: 426px) {

@@ -33,8 +33,6 @@ function Characters() {
         setCurrentPage(selected);
     };
 
-    const isFirstPage = currentPage === 0;
-
     const handleSearch = (searchTerm: string) => {
         charactersStore.setSearchTerm(searchTerm);
         setCurrentPage(0); // Сбросить страницу на первую при поиске
@@ -53,13 +51,14 @@ function Characters() {
             </div>
             <div className={styles.pagination}>
                 <ReactPaginate
-                    breakLabel="..."
+                    breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                        {"..."} </span>}
                     onPageChange={handlePageChange}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={3}
                     pageCount={totalPages}
                     containerClassName={styles.paginationContainer}
                     pageClassName={styles.page}
-                    previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {"<"} </span>}
                     nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {">"} </span>}

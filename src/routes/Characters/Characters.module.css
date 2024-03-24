@@ -60,6 +60,15 @@ h1 {
     background-color: yellow;
 }
 
+.redEllipsis {
+    color: red;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+
 @media screen and (max-width: 1025px) {
     .characters_container {
         display: flex;
