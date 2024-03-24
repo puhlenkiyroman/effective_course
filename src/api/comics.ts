@@ -28,5 +28,13 @@ export default {
             }
         });
         return response.data.data.results;
-    }
+    },
+
+    async searchComicsByName(titleStartsWith: string, offset: number = 0, limit: number = 25): Promise<{ data: { results: IComic[] }, total: number }> {
+        const response = await axios.get(`/comics?titleStartsWith=${titleStartsWith}&offset=${offset}&limit=${limit}`);
+        return {
+            data: response.data.data.results,
+            total: response.data.data.total
+        };
+    },
 };

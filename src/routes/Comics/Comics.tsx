@@ -1,24 +1,27 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import styles from './Comics.module.css';
 import Search from '../../components/Search';
 import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
-import useNameStartsWith from '../../hooks/useNameStartsWith';
 import ReactPaginate from "react-paginate";
 
-export const ITEMS_PER_PAGE = 25; // Количество комиксов на странице
+export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    const filteredComics = useNameStartsWith(comicsStore.comics, comicsStore.searchTerm, 'title');
+    const filteredComics = comicsStore.comics;
 
     useEffect(() => {
         const offset = currentPage * ITEMS_PER_PAGE;
-        comicsStore.fetchComics(offset);
-    }, [currentPage]);
+        if (comicsStore.searchTerm) {
+            comicsStore.fetchComicsByName(comicsStore.searchTerm, offset);
+        } else {
+            comicsStore.fetchComics(offset);
+        }
+    }, [currentPage, comicsStore.searchTerm]);
 
     useEffect(() => {
         const totalComics = comicsStore.totalComics;
@@ -26,18 +29,23 @@ function Comics() {
         setTotalPages(calculatedTotalPages);
     }, [comicsStore.totalComics]);
 
-    const handlePageChange = ({selected}: { selected: number }) => {
+    const handlePageChange = ({ selected }: { selected: number }) => {
         setCurrentPage(selected);
     };
 
     const isFirstPage = currentPage === 0;
 
+    const handleSearch = (searchTerm: string) => {
+        comicsStore.setSearchTerm(searchTerm);
+        setCurrentPage(0); // Сбросить страницу на первую при поиске
+    };
+
     return (
         <>
             <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
-            <Search onSearch={comicsStore.setSearchTerm} />
+            <Search onSearch={handleSearch} />
             <div className={styles.comics_container}>
-                {filteredComics.slice(currentPage * ITEMS_PER_PAGE, (currentPage + 1) * ITEMS_PER_PAGE).map(comic => (
+                {filteredComics.map(comic => (
                     <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
                         <Card card={comic} />
                     </Link>
@@ -53,7 +61,7 @@ function Comics() {
                     pageClassName={styles.page}
                     previousLabel={isFirstPage ? '' : <span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {"<"} </span>}
-                    nextLabel={/* isLastPage ? '' : */ <span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {">"} </span>}
                 />
             </div>

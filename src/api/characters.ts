@@ -24,5 +24,13 @@ export default {
     async getCharacterByComic(comicId: number): Promise<ICharacter[]> {
         const response = await axios.get(`/v1/public/comics/${comicId}/characters`);
         return response.data.data.results;
-    }
+    },
+
+    async searchCharactersByName(nameStartsWith: string, offset: number = 0, limit: number = 25): Promise<{ data: { results: ICharacter[] }, total: number }> {
+        const response = await axios.get(`/characters?nameStartsWith=${nameStartsWith}&offset=${offset}&limit=${limit}`);
+        return {
+            data: response.data.data.results,
+            total: response.data.data.total
+        };
+    },
 };

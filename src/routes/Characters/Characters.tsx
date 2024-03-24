@@ -6,19 +6,22 @@ import Search from '../../components/Search';
 import { charactersStore } from '../../stores/CharactersStore';
 import { observer } from 'mobx-react-lite';
 import ReactPaginate from "react-paginate";
-import useNameStartsWith from "../../hooks/useNameStartsWith";
 
-export const ITEMS_PER_PAGE = 25; // Количество персонажей на странице
+export const ITEMS_PER_PAGE = 25;
 
 function Characters() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    const filteredCharacters = useNameStartsWith(charactersStore.characters, charactersStore.searchTerm, 'name');
+    const filteredCharacters = charactersStore.characters;
 
     useEffect(() => {
         const offset = currentPage * ITEMS_PER_PAGE;
-        charactersStore.fetchCharacters(offset);
-    }, [currentPage]);
+        if (charactersStore.searchTerm) {
+            charactersStore.fetchCharactersByName(charactersStore.searchTerm, offset);
+        } else {
+            charactersStore.fetchCharacters(offset);
+        }
+    }, [currentPage, charactersStore.searchTerm]);
 
     useEffect(() => {
         const totalCharacters = charactersStore.totalCharacters;
@@ -32,10 +35,15 @@ function Characters() {
 
     const isFirstPage = currentPage === 0;
 
+    const handleSearch = (searchTerm: string) => {
+        charactersStore.setSearchTerm(searchTerm);
+        setCurrentPage(0); // Сбросить страницу на первую при поиске
+    };
+
     return (
         <>
             <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
-            <Search onSearch={charactersStore.setSearchTerm} />
+            <Search onSearch={handleSearch} />
             <div className={styles.characters_container}>
                 {filteredCharacters.map(character => (
                     <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>

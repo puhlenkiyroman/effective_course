@@ -61,6 +61,23 @@ class ComicsStore {
         }
     }
 
+    async fetchComicsByName(offset: number): Promise<void> {
+        try {
+            this.loading = true;
+            const { data, total } = await api.comics.searchComicsByName(this.searchTerm, offset);
+            runInAction(() => {
+                this.comics = data;
+                this.totalComics = total;
+            });
+        } catch (error) {
+            toast.error('Failed to fetch comics. Please try again later.');
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    }
+
     setSearchTerm(searchTerm: string): void {
         this.searchTerm = searchTerm;
     }

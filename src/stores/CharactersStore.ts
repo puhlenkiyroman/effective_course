@@ -18,6 +18,7 @@ class CharactersStore {
             searchTerm: observable,
             totalCharacters: observable,
             fetchCharacters: action,
+            fetchCharacter: action,
             setSearchTerm: action,
         });
     }
@@ -59,6 +60,22 @@ class CharactersStore {
         }
     }
 
+    async fetchCharactersByName(offset: number): Promise<void> {
+        try {
+            this.loading = true;
+            const { data, total } = await api.characters.searchCharactersByName(this.searchTerm, offset);
+            runInAction(() => {
+                this.characters = data;
+                this.totalCharacters = total;
+            });
+        } catch (error) {
+            toast.error('Failed to fetch characters. Please try again later.');
+        } finally {
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    }
     setSearchTerm(searchTerm: string): void {
         this.searchTerm = searchTerm;
     }
