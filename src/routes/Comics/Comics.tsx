@@ -12,6 +12,7 @@ export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
     const [loading, setLoading] = useState(false);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
         const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
@@ -19,6 +20,7 @@ function Comics() {
             setLoading(true);
             try {
                 await comicsStore.fetchComics(offset, comicsStore.searchTerm);
+                setIsDataLoaded(true);
             } catch (error) {
                 console.error('Error fetching comics:', error);
             } finally {
@@ -26,7 +28,9 @@ function Comics() {
             }
         };
 
-        fetchComics();
+        if (!isDataLoaded) {
+            fetchComics();
+        }
     }, [comicsStore.currentPage, comicsStore.searchTerm]);
 
     useEffect(() => {
@@ -38,6 +42,7 @@ function Comics() {
     const handlePageChange = ({ selected }: { selected: number }) => {
         if (!loading) {
             comicsStore.setCurrentPage(selected);
+            setIsDataLoaded(false);
         }
     };
 
@@ -45,6 +50,7 @@ function Comics() {
         if (!loading) {
             comicsStore.setSearchTerm(searchTerm);
             comicsStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
+            setIsDataLoaded(false);
         }
     };
 

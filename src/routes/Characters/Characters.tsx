@@ -12,13 +12,15 @@ export const ITEMS_PER_PAGE = 25;
 
 function Characters() {
     const [loading, setLoading] = useState(false);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
         const fetchCharacters = async () => {
             setLoading(true);
             try {
-                await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
+                await charactersStore.fetchCharacters(offset, charactersStore.searchTerm)
+                setIsDataLoaded(true);
             } catch (error) {
                 console.error('Error fetching characters:', error);
             } finally {
@@ -26,7 +28,9 @@ function Characters() {
             }
         };
 
-        fetchCharacters();
+        if (!isDataLoaded) {
+            fetchCharacters();
+        }
     }, [charactersStore.currentPage, charactersStore.searchTerm]);
 
     useEffect(() => {
@@ -38,6 +42,7 @@ function Characters() {
     const handlePageChange = ({ selected }: { selected: number }) => {
         if (!loading) {
             charactersStore.setCurrentPage(selected);
+            setIsDataLoaded(false);
         }
     };
 
@@ -45,6 +50,7 @@ function Characters() {
         if (!loading) {
             charactersStore.setSearchTerm(searchTerm);
             charactersStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
+            setIsDataLoaded(false);
         }
     };
 
