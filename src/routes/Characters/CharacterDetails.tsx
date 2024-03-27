@@ -17,7 +17,7 @@ function CharacterDetails() {
             const fetchedCharacter = await charactersStore.fetchCharacter(parseInt(id!, 10));
             setCharacter(fetchedCharacter);
 
-            const fetchedComics = await charactersStore.fetchCharacters(parseInt(id!, 10));
+            const fetchedComics = await charactersStore.fetchComicsByCharacter(parseInt(id!, 10));
             setCharacterComics(fetchedComics);
 
             setLoading(false);
