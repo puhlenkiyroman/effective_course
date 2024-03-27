@@ -1,12 +1,27 @@
-import {useState} from 'react';
+import { useState, useEffect } from 'react';
 import styles from "./Search.module.css";
 
-function Search() {
+interface Props {
+    onSearch: (searchTerm: string) => void;
+}
 
+function Search({ onSearch }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = () => {
-        console.log('Выполняется поиск по:', searchTerm);
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            onSearch(searchTerm);
+        }, 3000);
+
+        return () => clearTimeout(timeoutId);
+    }, [searchTerm, onSearch]);
+
+    const handleSearchClick = () => {
+        onSearch(searchTerm);
     };
 
     return (
@@ -15,12 +30,12 @@ function Search() {
                 className={styles.search_input}
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="   Search"
+                onChange={handleSearchChange}
+                placeholder="Search"
             />
             <button
                 className={styles.search_button}
-                onClick={handleSearch}
+                onClick={handleSearchClick}
             >
                 SEARCH
             </button>

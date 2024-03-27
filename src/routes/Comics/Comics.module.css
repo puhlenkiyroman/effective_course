@@ -23,3 +23,90 @@ h1 {
     font-size: 32px;
     color: grey;
 }
+
+.paginationContainer {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+.page {
+    margin-right: 50px;
+    margin-bottom: 50px;
+    padding: 15px;
+    cursor: pointer;
+    user-select: none;
+    color: red;
+}
+
+.nextLabel {
+    margin-bottom: 50px;
+}
+
+.page a, .page a:hover {
+    padding: 15px;
+    color:red;
+    text-decoration: none;
+}
+
+.nextLabel {
+    margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+    color: red;
+}
+
+.page:hover {
+    background-color: yellow;
+}
+
+@media screen and (max-width: 1025px) {
+    .comics_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page {
+        margin-right: 25px;
+        margin-bottom: 50px;
+        padding: 10px;
+        cursor: pointer;
+        user-select: none;
+        color: red;
+    }
+
+    .nextLabel {
+        margin-bottom: 50px;
+    }
+
+    .page a, .page a:hover {
+        padding: 13px;
+        color:red;
+        text-decoration: none;
+    }
+
+    .nextLabel {
+        margin-right: 10px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        user-select: none;
+        color: red;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    h1 {
+        font-size: 38px !important;
+    }
+    .comicsCount {
+        font-size: 24px;
+        color: grey;
+    }
+}
+
+

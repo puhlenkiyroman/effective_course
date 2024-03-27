@@ -40,3 +40,22 @@
 .link:hover {
     color: yellow;
 }
+
+@media screen and (max-width: 600px) {
+
+    .logo {
+        color: red;
+        height: 50px;
+        width: 100px;
+    }
+
+    .navList {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    .navList {
+        padding-left: 25px;
+    }
+}
