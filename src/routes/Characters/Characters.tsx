@@ -11,22 +11,14 @@ import Loader from "../../components/Loader/Loader.tsx";
 export const ITEMS_PER_PAGE = 25;
 
 function Characters() {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    const filteredCharacters = charactersStore.characters;
-
     useEffect(() => {
-        const offset = currentPage * ITEMS_PER_PAGE;
+        const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
         const fetchCharacters = async () => {
             setLoading(true);
             try {
-                if (charactersStore.searchTerm) {
-                    await charactersStore.fetchCharactersByName(offset);
-                } else {
-                    await charactersStore.fetchCharacters(offset);
-                }
+                await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
             } catch (error) {
                 console.error('Error fetching characters:', error);
             } finally {
@@ -35,21 +27,25 @@ function Characters() {
         };
 
         fetchCharacters();
-    }, [currentPage, charactersStore.searchTerm]);
+    }, [charactersStore.currentPage, charactersStore.searchTerm]);
 
     useEffect(() => {
         const totalCharacters = charactersStore.totalCharacters;
         const calculatedTotalPages = Math.ceil(totalCharacters / ITEMS_PER_PAGE);
-        setTotalPages(calculatedTotalPages);
+        charactersStore.setTotalPages(calculatedTotalPages);
     }, [charactersStore.totalCharacters]);
 
     const handlePageChange = ({ selected }: { selected: number }) => {
-        setCurrentPage(selected);
+        if (!loading) {
+            charactersStore.setCurrentPage(selected);
+        }
     };
 
     const handleSearch = (searchTerm: string) => {
-        charactersStore.setSearchTerm(searchTerm);
-        setCurrentPage(0); // Сбросить страницу на первую при поиске
+        if (!loading) {
+            charactersStore.setSearchTerm(searchTerm);
+            charactersStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
+        }
     };
 
     return (
@@ -60,7 +56,7 @@ function Characters() {
                 <Loader />
             ) : (
                 <div className={styles.characters_container}>
-                    {filteredCharacters.map(character => (
+                    {charactersStore.characters.map(character => (
                         <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
                             <Card card={character} />
                         </Link>
@@ -71,9 +67,9 @@ function Characters() {
                 <ReactPaginate
                     breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                         {"..."} </span>}
-                    onPageChange={handlePageChange}
+                    onPageChange={loading ? undefined : handlePageChange}
                     pageRangeDisplayed={3}
-                    pageCount={totalPages}
+                    pageCount={charactersStore.totalPages}
                     containerClassName={styles.paginationContainer}
                     pageClassName={styles.page}
                     previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>

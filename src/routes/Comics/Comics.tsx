@@ -6,27 +6,19 @@ import Search from '../../components/Search';
 import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
 import ReactPaginate from "react-paginate";
-import {charactersStore} from "../../stores/CharactersStore.ts";
 import Loader from "../../components/Loader/Loader.tsx";
 
 export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
-    const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
     const [loading, setLoading] = useState(false);
-    const filteredComics = comicsStore.comics;
 
     useEffect(() => {
-        const offset = currentPage * ITEMS_PER_PAGE;
+        const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
         const fetchComics = async () => {
             setLoading(true);
             try {
-                if (comicsStore.searchTerm) {
-                    await comicsStore.fetchComicsByName(offset);
-                } else {
-                    await comicsStore.fetchComics(offset);
-                }
+                await comicsStore.fetchComics(offset, comicsStore.searchTerm);
             } catch (error) {
                 console.error('Error fetching comics:', error);
             } finally {
@@ -35,21 +27,25 @@ function Comics() {
         };
 
         fetchComics();
-    }, [currentPage, comicsStore.searchTerm]);
+    }, [comicsStore.currentPage, comicsStore.searchTerm]);
 
     useEffect(() => {
         const totalComics = comicsStore.totalComics;
         const calculatedTotalPages = Math.ceil(totalComics / ITEMS_PER_PAGE);
-        setTotalPages(calculatedTotalPages);
+        comicsStore.setTotalPages(calculatedTotalPages);
     }, [comicsStore.totalComics]);
 
     const handlePageChange = ({ selected }: { selected: number }) => {
-        setCurrentPage(selected);
+        if (!loading) {
+            comicsStore.setCurrentPage(selected);
+        }
     };
 
     const handleSearch = (searchTerm: string) => {
-        comicsStore.setSearchTerm(searchTerm);
-        setCurrentPage(0); // Сбросить страницу на первую при поиске
+        if (!loading) {
+            comicsStore.setSearchTerm(searchTerm);
+            comicsStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
+        }
     };
 
     return (
@@ -60,7 +56,7 @@ function Comics() {
                 <Loader />
             ) : (
                 <div className={styles.comics_container}>
-                    {filteredComics.map(comic => (
+                    {comicsStore.comics.map(comic => (
                         <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
                             <Card card={comic} />
                         </Link>
@@ -70,9 +66,9 @@ function Comics() {
             <ReactPaginate
                 breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                     {"..."} </span>}
-                onPageChange={handlePageChange}
+                onPageChange={loading ? undefined : handlePageChange}
                 pageRangeDisplayed={3}
-                pageCount={totalPages}
+                pageCount={comicsStore.totalPages}
                 containerClassName={styles.paginationContainer}
                 pageClassName={styles.page}
                 previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>

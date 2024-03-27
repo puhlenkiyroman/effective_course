@@ -1,7 +1,7 @@
 import { observable, action, makeObservable, runInAction } from 'mobx';
 import api from '../api';
 import { toast } from 'react-toastify';
-//Types
+// Types
 import { ICharacter } from '../types/characters';
 import { IComic } from "../types/comics";
 
@@ -10,6 +10,8 @@ class CharactersStore {
     loading: boolean = false;
     searchTerm: string = '';
     totalCharacters: number = 0;
+    currentPage: number = 0;
+    totalPages: number = 0;
 
     constructor() {
         makeObservable(this, {
@@ -17,16 +19,27 @@ class CharactersStore {
             loading: observable,
             searchTerm: observable,
             totalCharacters: observable,
+            currentPage: observable,
+            totalPages: observable,
             fetchCharacters: action,
             fetchCharacter: action,
+            fetchComicsByCharacter: action,
             setSearchTerm: action,
+            setCurrentPage: action,
+            setTotalPages: action
         });
     }
 
-    async fetchCharacters(offset: number): Promise<void> {
+    async fetchCharacters(offset: number, searchTerm?: string): Promise<void> {
         try {
             this.loading = true;
-            const { data, total } = await api.characters.getCharactersList(offset);
+            let response;
+            if (searchTerm) {
+                response = await api.characters.searchCharactersByName(searchTerm, offset);
+            } else {
+                response = await api.characters.getCharactersList(offset);
+            }
+            const { data, total } = response;
             runInAction(() => {
                 this.characters = data;
                 this.totalCharacters = total;
@@ -60,26 +73,17 @@ class CharactersStore {
         }
     }
 
-    async fetchCharactersByName(offset: number): Promise<void> {
-        try {
-            this.loading = true;
-            const { data, total } = await api.characters.searchCharactersByName(this.searchTerm, offset);
-            runInAction(() => {
-                this.characters = data;
-                this.totalCharacters = total;
-            });
-        } catch (error) {
-            toast.error('Failed to fetch characters. Please try again later.');
-        } finally {
-            runInAction(() => {
-                this.loading = false;
-            });
-        }
-    }
     setSearchTerm(searchTerm: string): void {
         this.searchTerm = searchTerm;
     }
 
+    setCurrentPage(page: number): void {
+        this.currentPage = page;
+    }
+
+    setTotalPages(totalPages: number): void {
+        this.totalPages = totalPages;
+    }
 }
 
 export const charactersStore = new CharactersStore();

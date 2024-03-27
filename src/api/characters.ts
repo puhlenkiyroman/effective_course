@@ -4,7 +4,7 @@ import axios from '../api/helpers/axios.ts';
 import { ICharacter } from '../types/characters.ts';
 
 export default {
-    async getCharactersList(offset: number = 0, limit: number = 25): Promise<{ data: { results: ICharacter[] }, total: number }> {
+    async getCharactersList(offset: number = 0, limit: number = 25): Promise<{ data: ICharacter[], total: number }> {
         const response = await axios.get(`/characters?offset=${offset}&limit=${limit}`);
         return {
             data: response.data.data.results,
@@ -22,7 +22,7 @@ export default {
     },
 
     async getCharacterByComic(comicId: number): Promise<ICharacter[]> {
-        const response = await axios.get(`/v1/public/comics/${comicId}/characters`);
+        const response = await axios.get(`/comics/${comicId}/characters`);
         return response.data.data.results;
     },
 
