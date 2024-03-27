@@ -6,21 +6,35 @@ import Search from '../../components/Search';
 import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
 import ReactPaginate from "react-paginate";
+import {charactersStore} from "../../stores/CharactersStore.ts";
+import Loader from "../../components/Loader/Loader.tsx";
 
 export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(false);
     const filteredComics = comicsStore.comics;
 
     useEffect(() => {
         const offset = currentPage * ITEMS_PER_PAGE;
-        if (comicsStore.searchTerm) {
-            comicsStore.fetchComicsByName(comicsStore.searchTerm, offset);
-        } else {
-            comicsStore.fetchComics(offset);
-        }
+        const fetchComics = async () => {
+            setLoading(true);
+            try {
+                if (comicsStore.searchTerm) {
+                    await comicsStore.fetchComicsByName(offset);
+                } else {
+                    await comicsStore.fetchComics(offset);
+                }
+            } catch (error) {
+                console.error('Error fetching comics:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchComics();
     }, [currentPage, comicsStore.searchTerm]);
 
     useEffect(() => {
@@ -42,13 +56,17 @@ function Comics() {
         <>
             <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
             <Search onSearch={handleSearch} />
-            <div className={styles.comics_container}>
-                {filteredComics.map(comic => (
-                    <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
-                        <Card card={comic} />
-                    </Link>
-                ))}
-            </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className={styles.comics_container}>
+                    {filteredComics.map(comic => (
+                        <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
+                            <Card card={comic} />
+                        </Link>
+                    ))}
+                </div>
+            )}
             <ReactPaginate
                 breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
                     {"..."} </span>}

@@ -68,7 +68,6 @@ h1 {
     user-select: none;
 }
 
-
 @media screen and (max-width: 1025px) {
     .characters_container {
         display: flex;

@@ -6,21 +6,35 @@ import Search from '../../components/Search';
 import { charactersStore } from '../../stores/CharactersStore';
 import { observer } from 'mobx-react-lite';
 import ReactPaginate from "react-paginate";
+import Loader from "../../components/Loader/Loader.tsx";
 
 export const ITEMS_PER_PAGE = 25;
 
 function Characters() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
+    const [loading, setLoading] = useState(false);
+
     const filteredCharacters = charactersStore.characters;
 
     useEffect(() => {
         const offset = currentPage * ITEMS_PER_PAGE;
-        if (charactersStore.searchTerm) {
-            charactersStore.fetchCharactersByName(charactersStore.searchTerm, offset);
-        } else {
-            charactersStore.fetchCharacters(offset);
-        }
+        const fetchCharacters = async () => {
+            setLoading(true);
+            try {
+                if (charactersStore.searchTerm) {
+                    await charactersStore.fetchCharactersByName(offset);
+                } else {
+                    await charactersStore.fetchCharacters(offset);
+                }
+            } catch (error) {
+                console.error('Error fetching characters:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCharacters();
     }, [currentPage, charactersStore.searchTerm]);
 
     useEffect(() => {
@@ -42,13 +56,17 @@ function Characters() {
         <>
             <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
             <Search onSearch={handleSearch} />
-            <div className={styles.characters_container}>
-                {filteredCharacters.map(character => (
-                    <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
-                        <Card card={character} />
-                    </Link>
-                ))}
-            </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className={styles.characters_container}>
+                    {filteredCharacters.map(character => (
+                        <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
+                            <Card card={character} />
+                        </Link>
+                    ))}
+                </div>
+            )}
             <div className={styles.pagination}>
                 <ReactPaginate
                     breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>

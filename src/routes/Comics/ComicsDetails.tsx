@@ -3,19 +3,25 @@ import { useParams, Link } from 'react-router-dom';
 import styles from './ComicsDetails.module.css';
 import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from "mobx-react-lite";
+import Loader from "../../components/Loader/Loader.tsx";
 
 function ComicsDetails() {
     const { id } = useParams<{ id: string | undefined }>();
     const [comic, setComic] = useState<any>(null);
     const [comicCharacters, setComicCharacters] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchData() {
+            setLoading(true);
+
             const fetchedComic = await comicsStore.fetchComic(parseInt(id!, 10));
             setComic(fetchedComic);
 
             const fetchedComicCharacters = await comicsStore.fetchCharactersByComic(parseInt(id!, 10));
             setComicCharacters(fetchedComicCharacters);
+
+            setLoading(false);
         }
 
         if (id) {
@@ -23,9 +29,10 @@ function ComicsDetails() {
         }
     }, [id]);
 
-    if (!id || !comic) {
-        return <div>Loading...</div>;
+    if (!id || !comic || loading) {
+        return <Loader />;
     }
+
 
     return (
         <>
