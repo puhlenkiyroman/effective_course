@@ -21,3 +21,68 @@ h1 {
     font-size: 32px;
     color: grey;
 }
+
+.paginationContainer {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+}
+
+.page {
+    margin-right: 50px;
+    margin-bottom: 50px;
+    padding: 15px;
+    cursor: pointer;
+    user-select: none;
+    color: red;
+}
+
+.nextLabel {
+    margin-bottom: 50px;
+}
+
+.page a, .page a:hover {
+    padding: 15px;
+    color:red;
+    text-decoration: none;
+}
+
+.nextLabel {
+    margin-right: 10px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+    color: red;
+}
+
+.page a:hover {
+    background-color: yellow;
+}
+
+.redEllipsis {
+    color: red;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    user-select: none;
+}
+
+@media screen and (max-width: 1025px) {
+    .characters_container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    h1 {
+        font-size: 38px !important;
+    }
+    .comicsCount {
+        font-size: 24px;
+        color: grey;
+    }
+}

@@ -1,22 +1,22 @@
 import React from 'react';
 import styles from './Card.module.css';
+import { IComic } from '..//../types/comics';
+import { ICharacter } from '../../types/characters';
 
 interface CardProps {
-    card: {
-        id: number;
-        title?: string;
-        name?: string;
-        description: string;
-        image: string;
-    };
+    card: IComic | ICharacter;
 }
 
 const Card: React.FC<CardProps> = ({ card }) => {
+    const imagePath = `${card.thumbnail.path}.${card.thumbnail.extension}`;
+    const name = 'name' in card ? card.name : '';
+    const title = 'title' in card ? card.title : '';
+
     return (
         <div className={styles.card}>
-            <img src={card.image} alt={card.title || card.name} />
-            <h3>{card.title || card.name}</h3>
-            <p>{card.description}</p>
+            <img src={imagePath} alt={name || title} />
+            <h3>{name || title}</h3>
+            <p>{'description' in card ? card.description : ''}</p>
         </div>
     );
 };

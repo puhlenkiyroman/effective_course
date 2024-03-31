@@ -26,3 +26,14 @@
 a:hover {
     text-decoration: underline;
 }
+@media screen and (max-width: 600px) {
+
+    .logo {
+        height: 50px;
+        width: 100px;
+    }
+
+    .navList {
+        font-size: 16px;
+    }
+}

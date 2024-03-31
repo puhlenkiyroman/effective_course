@@ -24,3 +24,43 @@
 .character {
     max-width: 600px;
 }
+
+@media screen and (max-width: 1025px) {
+    .image {
+        width: 105%;
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 769px) {
+    .image {
+        width: 107%;
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 601px) {
+    .image {
+        width: 109%;
+        height: 350px;
+    }
+
+    .comics {
+        margin-left: 150px;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    .image {
+        width: 112%;
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .image {
+        width: 116%;
+        height: 350px;
+    }
+}
+

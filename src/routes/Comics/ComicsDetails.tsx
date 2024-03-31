@@ -1,38 +1,51 @@
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { comicsData } from './Comics.tsx';
-import { charactersData } from '../Characters/Characters.tsx';
 import styles from './ComicsDetails.module.css';
+import { comicsStore } from "../../stores/ComicsStore";
+import { observer } from "mobx-react-lite";
+import Loader from "../../components/Loader/Loader.tsx";
 
-function ComicsDetails () {
+function ComicsDetails() {
     const { id } = useParams<{ id: string | undefined }>();
+    const [comic, setComic] = useState<any>(null);
+    const [comicCharacters, setComicCharacters] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    if (!id) {
-        return <div>Invalid comic ID</div>;
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+
+            const fetchedComic = await comicsStore.fetchComic(parseInt(id!, 10));
+            setComic(fetchedComic);
+
+            const fetchedComicCharacters = await comicsStore.fetchCharactersByComic(parseInt(id!, 10));
+            setComicCharacters(fetchedComicCharacters);
+
+            setLoading(false);
+        }
+
+        if (id) {
+            fetchData();
+        }
+    }, [id]);
+
+    if (!id || !comic || loading) {
+        return <Loader />;
     }
 
-    const comicId = parseInt(id, 10);
-
-    const comic
-        = comicsData.find(comic => comic.id === comicId);
-
-    if (!comic) {
-        return <div>Comic not found</div>;
-    }
-
-    // Фильтруем персонажей, которые появляются в данном комиксе
-    const comicCharacters
-        = charactersData.filter(character => comic.characters.includes(character.id));
 
     return (
         <>
-            <img className={styles.image} src={comic.image} alt={comic.title} />
+            {comic.thumbnail && (
+                <img className={styles.image} src={`${comic.thumbnail.path}.${comic.thumbnail.extension}`} alt={comic.title} />
+            )}
             <div className={styles.card}>
                 <div className={styles.comic}>
-                <h2>{comic.title}</h2>
-                <p>{comic.description}</p>
+                    <h2>{comic.title}</h2>
+                    <p>{comic.description}</p>
                 </div>
                 <div className={styles.characters}>
-                    <h2>Characters</h2>
+                    <h2>Characters:</h2>
                     <ul>
                         {comicCharacters.map(character => (
                             <li key={character.id}>
@@ -44,6 +57,6 @@ function ComicsDetails () {
             </div>
         </>
     );
-};
+}
 
-export default ComicsDetails;
+export default observer(ComicsDetails);

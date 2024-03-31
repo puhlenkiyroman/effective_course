@@ -1,64 +1,89 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../components/Card';
 import styles from './Comics.module.css';
-import spidermanImage from '../../assets/spiderman.jpg';
-import hulkImage from '../../assets/hulk.jpg';
-import ironManImage from '../../assets/ironman.jpg';
-import fantasticFourImage from '../../assets/fantasticfour.jpg';
-import deadpoolImage from '../../assets/deadpool.jpg';
-import Search from "../../components/Search";
-export const comicsData = [
-    {
-        id: 1,
-        title: 'The Amazing Spider-Man #1',
-        description: 'The Amazing Spider-Man is a comic book series featuring the Marvel Comics superhero Spider-Man.',
-        image: spidermanImage,
-        characters: [1] // Идентификаторы персонажей, появляющихся в этом комиксе
-    },
-    {
-        id: 2,
-        title: 'The Fantastic Four #1',
-        description: 'The Fantastic Four is a superhero team appearing in American comic books published by Marvel Comics.',
-        image: fantasticFourImage,
-        characters: [1, 2]
-    },
-    {
-        id: 3,
-        title: 'Iron Man #3',
-        description: 'In the aftermath of his battle with the Demolisher, Tony Stark race against the clock to create a new suite complete with a new lasting battery to keep his heart from failing.',
-        image: ironManImage,
-        characters: [3]
-    },
-    {
-        id: 4,
-        title: 'Hulk #131',
-        description: 'Hulk, a green-skinned, hulking and muscular humanoid possessing a limitless degree of physical strength, and the alter ego Dr. Robert Bruce Banner, a physically weak, socially withdrawn, and emotionally reserved physicist, both of whom typically resent each other.',
-        image: hulkImage,
-        characters: [4]
-    },
-    {
-        id: 5,
-        title: 'Deadpool #5',
-        description: 'Deadpool is a highly trained assassin and mercenary',
-        image: deadpoolImage,
-        characters: [5]
-    },
-];
+import Search from '../../components/Search';
+import { comicsStore } from "../../stores/ComicsStore";
+import { observer } from 'mobx-react-lite';
+import ReactPaginate from "react-paginate";
+import Loader from "../../components/Loader/Loader.tsx";
+
+export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
+    const [loading, setLoading] = useState(false);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+    useEffect(() => {
+        const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
+        const fetchComics = async () => {
+            setLoading(true);
+            try {
+                await comicsStore.fetchComics(offset, comicsStore.searchTerm);
+                setIsDataLoaded(true);
+            } catch (error) {
+                console.error('Error fetching comics:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (!isDataLoaded) {
+            fetchComics();
+        }
+    }, [comicsStore.currentPage, comicsStore.searchTerm]);
+
+    useEffect(() => {
+        const totalComics = comicsStore.totalComics;
+        const calculatedTotalPages = Math.ceil(totalComics / ITEMS_PER_PAGE);
+        comicsStore.setTotalPages(calculatedTotalPages);
+    }, [comicsStore.totalComics]);
+
+    const handlePageChange = ({ selected }: { selected: number }) => {
+        if (!loading) {
+            comicsStore.setCurrentPage(selected);
+            setIsDataLoaded(false);
+        }
+    };
+
+    const handleSearch = (searchTerm: string) => {
+        if (!loading) {
+            comicsStore.setSearchTerm(searchTerm);
+            comicsStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
+            setIsDataLoaded(false);
+        }
+    };
+
     return (
         <>
-            <h1>Comics <span className={styles.comicsCount}>({comicsData.length})</span></h1>
-            <Search/>
-            <div className={styles.comics_container}>
-                {comicsData.map(comic => (
-                    <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
-                        <Card card={comic} />
-                    </Link>
-                ))}
-            </div>
+            <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
+            <Search onSearch={handleSearch} />
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className={styles.comics_container}>
+                    {comicsStore.comics.map(comic => (
+                        <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
+                            <Card card={comic} />
+                        </Link>
+                    ))}
+                </div>
+            )}
+            <ReactPaginate
+                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    {"..."} </span>}
+                onPageChange={loading ? undefined : handlePageChange}
+                pageRangeDisplayed={3}
+                pageCount={comicsStore.totalPages}
+                containerClassName={styles.paginationContainer}
+                pageClassName={styles.page}
+                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    {"<"} </span>}
+                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    {">"} </span>}
+            />
         </>
     );
 }
 
-export default Comics;
+export default observer(Comics);
