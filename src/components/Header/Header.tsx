@@ -11,6 +11,7 @@ function Header() {
                 <ul className={styles.navList}>
                     <li><NavLink to="/characters" className={styles.link}>Characters</NavLink></li>
                     <li><NavLink to="/comics" className={styles.link}>Comics</NavLink></li>
+                    <li><NavLink to="/favourites" className={styles.link}>Favourites</NavLink></li>
                 </ul>
             </nav>
         </header>

@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Comics from './routes/Comics';
-import ComicsDetails from "./routes/Comics/ComicsDetails.tsx";
+import ComicsDetails from "./routes/Comics/ComicsDetails";
 import Characters from './routes/Characters';
-import CharacterDetails from './routes/Characters/CharacterDetails.tsx';
+import CharacterDetails from './routes/Characters/CharacterDetails';
+import Favourites from "./routes/Favourites";
 import Layout from './components/Layout';
 import './App.css';
 function App() {
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/comics/:id" element={ <ComicsDetails />} />
                     <Route path="/characters" element={<Characters />} />
                     <Route path="/characters/:id" element={<CharacterDetails />} />
+                    <Route path="/favourites" element={<Favourites />} />
                 </Route>
             </Routes>
         </Router>
