@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Card.module.css';
 import { IComic } from '..//../types/comics';
 import { ICharacter } from '../../types/characters';
@@ -14,9 +14,23 @@ const Card: React.FC<CardProps> = ({ card, onLike, onClick }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [liked, setLiked] = useState(false);
 
+    useEffect(() => {
+        const savedLiked = localStorage.getItem(`liked_${card.id}`);
+        if (savedLiked !== null) {
+            setLiked(JSON.parse(savedLiked));
+        }
+    }, [card.id]);
+
     const handleLike = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setLiked(!liked);
+        const newLiked = !liked;
+
+        // Обновляем состояние лайка
+        setLiked(newLiked);
+
+        // Сохраняем статус лайка в LocalStorage
+        localStorage.setItem(`liked_${card.id}`, JSON.stringify(newLiked));
+
         onLike(card.id);
     };
 
