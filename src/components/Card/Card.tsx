@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({ card, onLike, onClick }) => {
         setLiked(newLiked);
 
         // Сохраняем статус лайка в LocalStorage
-        localStorage.setItem(`liked_${card.id}`, JSON.stringify(newLiked));
+        localStorage.setItem(`liked_${card.id}`, JSON.stringify(card));
 
         onLike(card.id);
     };
