@@ -44,7 +44,7 @@ const Card: React.FC<CardProps> = ({ card, onLike, onClick }) => {
 
     return (
         <div
-            className={styles.card}
+            className={`${styles.card} ${liked ? styles.liked && styles.cardLiked : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={onClick}

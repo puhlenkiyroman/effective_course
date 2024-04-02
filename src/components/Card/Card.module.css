@@ -1,7 +1,7 @@
 .card {
     position: relative;
     border: 1px solid #ccc;
-    border-radius: 0px;
+    border-radius: 0;
     width: 200px;
     height: 300px;
     margin: 50px 0 50px 50px;
@@ -53,6 +53,10 @@ h3 {
 
 .liked {
     color: red;
+}
+
+.cardLiked {
+    border: 1px solid red;
 }
 
 @media screen and (max-width: 768px) {
