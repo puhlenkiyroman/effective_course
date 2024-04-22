@@ -69,21 +69,19 @@ function Characters() {
                     ))}
                 </div>
             )}
-            <div className={styles.pagination}>
-                <ReactPaginate
-                    breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
-                        {"..."} </span>}
-                    onPageChange={loading ? undefined : handlePageChange}
-                    pageRangeDisplayed={3}
-                    pageCount={charactersStore.totalPages}
-                    containerClassName={styles.paginationContainer}
-                    pageClassName={styles.page}
-                    previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
-                        {"<"} </span>}
-                    nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
-                        {">"} </span>}
-                />
-            </div>
+            <ReactPaginate
+                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
+                    {"..."} </span>}
+                onPageChange={loading ? undefined : handlePageChange}
+                pageRangeDisplayed={1}
+                pageCount={charactersStore.totalPages}
+                containerClassName={styles.paginationContainer}
+                pageClassName={styles.page}
+                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
+                    {"<"} </span>}
+                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                    {">"} </span>}
+            />
         </>
     );
 }

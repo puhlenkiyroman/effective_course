@@ -70,16 +70,16 @@ function Comics() {
                 </div>
             )}
             <ReactPaginate
-                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
                     {"..."} </span>}
                 onPageChange={loading ? undefined : handlePageChange}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={1}
                 pageCount={comicsStore.totalPages}
                 containerClassName={styles.paginationContainer}
                 pageClassName={styles.page}
-                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
                     {"<"} </span>}
-                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
+                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
                     {">"} </span>}
             />
         </>
