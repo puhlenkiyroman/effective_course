@@ -23,6 +23,7 @@ const Card: React.FC<CardProps> = ({ card, onLike, onClick }) => {
 
     const handleLike = (e: React.MouseEvent) => {
         e.stopPropagation();
+        e.preventDefault(); // Предотвращаем действие по умолчанию
         const newLiked = !liked;
 
         // Обновляем состояние лайка
