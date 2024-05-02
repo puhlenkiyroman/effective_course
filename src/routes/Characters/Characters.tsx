@@ -5,7 +5,7 @@ import styles from './Characters.module.css';
 import Search from '../../components/Search';
 import { charactersStore } from '../../stores/CharactersStore';
 import { observer } from 'mobx-react-lite';
-import ReactPaginate from "react-paginate";
+import { VirtuosoGrid } from 'react-virtuoso';
 import Loader from "../../components/Loader/Loader.tsx";
 
 export const ITEMS_PER_PAGE = 25;
@@ -13,6 +13,7 @@ export const ITEMS_PER_PAGE = 25;
 function Characters() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
@@ -39,18 +40,27 @@ function Characters() {
         charactersStore.setTotalPages(calculatedTotalPages);
     }, [charactersStore.totalCharacters]);
 
-    const handlePageChange = ({ selected }: { selected: number }) => {
-        if (!loading) {
-            charactersStore.setCurrentPage(selected);
-            setIsDataLoaded(false);
-        }
-    };
 
     const handleSearch = (searchTerm: string) => {
         if (!loading) {
             charactersStore.setSearchTerm(searchTerm);
             charactersStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
             setIsDataLoaded(false);
+        }
+    };
+
+    const fetchMoreData = async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const nextPage = charactersStore.currentPage + 1;
+            const offset = nextPage * ITEMS_PER_PAGE;
+            await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
+        } catch (error) {
+            console.error('Error fetching more characters:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -61,27 +71,23 @@ function Characters() {
             {loading ? (
                 <Loader />
             ) : (
-                <div className={styles.characters_container}>
-                    {charactersStore.characters.map(character => (
-                        <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
-                            <Card card={character} />
-                        </Link>
-                    ))}
-                </div>
+                <VirtuosoGrid
+                    listClassName={styles.characters_container}
+                    // useWindowScroll={true}
+                    style = {{height: '500px'}}
+                    totalCount={charactersStore.totalCharacters}
+                    endReached={fetchMoreData}
+                    // components={{ Footer: Loader }}
+                    itemContent={(index) => {
+                            const character = charactersStore.characters[index];
+                            return (
+                                <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
+                                    <Card card={character} />
+                                </Link>
+                            )
+                    }}
+                />
             )}
-            <ReactPaginate
-                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
-                    {"..."} </span>}
-                onPageChange={loading ? undefined : handlePageChange}
-                pageRangeDisplayed={1}
-                pageCount={charactersStore.totalPages}
-                containerClassName={styles.paginationContainer}
-                pageClassName={styles.page}
-                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
-                    {"<"} </span>}
-                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '15px', cursor: 'pointer', userSelect: 'none'}}>
-                    {">"} </span>}
-            />
         </>
     );
 }

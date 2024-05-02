@@ -22,6 +22,7 @@ class CharactersStore {
             currentPage: observable,
             totalPages: observable,
             fetchCharacters: action,
+            //fetchAllCharacters: action,
             fetchCharacter: action,
             fetchComicsByCharacter: action,
             setSearchTerm: action,
@@ -29,6 +30,29 @@ class CharactersStore {
             setTotalPages: action
         });
     }
+
+    // async fetchAllCharacters(offset: number, searchTerm?: string): Promise<void> {
+    //     try {
+    //         this.loading = true;
+    //         let response;
+    //         if (searchTerm) {
+    //             response = await api.characters.searchCharactersByName(searchTerm, offset);
+    //         } else {
+    //             response = await api.characters.getCharactersList(offset);
+    //         }
+    //         const { data, total } = response;
+    //         runInAction(() => {
+    //             this.characters = data;
+    //             this.totalCharacters = total;
+    //         });
+    //     } catch (error) {
+    //         toast.error('Failed to fetch characters. Please try again later.');
+    //     } finally {
+    //         runInAction(() => {
+    //             this.loading = false;
+    //         });
+    //     }
+    // }
 
     async fetchCharacters(offset: number, searchTerm?: string): Promise<void> {
         try {
