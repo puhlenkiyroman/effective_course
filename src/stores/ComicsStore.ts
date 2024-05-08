@@ -41,7 +41,13 @@ class ComicsStore {
             }
             const { data, total } = response;
             runInAction(() => {
-                this.comics = data;
+                // Если это первая страница, просто устанавливаем данные
+                if (offset === 0) {
+                    this.comics = data;
+                } else {
+                    // Если это не первая страница, добавляем данные к текущим данным
+                    this.comics = [...this.comics, ...data];
+                }
                 this.totalComics = total;
             });
         } catch (error) {

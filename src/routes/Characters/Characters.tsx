@@ -13,7 +13,7 @@ export const ITEMS_PER_PAGE = 25;
 function Characters() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore] = useState(true);
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
@@ -40,7 +40,6 @@ function Characters() {
         charactersStore.setTotalPages(calculatedTotalPages);
     }, [charactersStore.totalCharacters]);
 
-
     const handleSearch = (searchTerm: string) => {
         if (!loading) {
             charactersStore.setSearchTerm(searchTerm);
@@ -57,6 +56,7 @@ function Characters() {
             const nextPage = charactersStore.currentPage + 1;
             const offset = nextPage * ITEMS_PER_PAGE;
             await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
+            charactersStore.setCurrentPage(nextPage); // Обновляем текущую страницу после успешной загрузки
         } catch (error) {
             console.error('Error fetching more characters:', error);
         } finally {
@@ -68,26 +68,21 @@ function Characters() {
         <>
             <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
             <Search onSearch={handleSearch} />
-            {loading ? (
-                <Loader />
-            ) : (
-                <VirtuosoGrid
-                    listClassName={styles.characters_container}
-                    // useWindowScroll={true}
-                    style = {{height: '500px'}}
-                    totalCount={charactersStore.totalCharacters}
-                    endReached={fetchMoreData}
-                    // components={{ Footer: Loader }}
-                    itemContent={(index) => {
-                            const character = charactersStore.characters[index];
-                            return (
-                                <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
-                                    <Card card={character} />
-                                </Link>
-                            )
-                    }}
-                />
-            )}
+            <VirtuosoGrid
+                listClassName={styles.characters_container}
+                useWindowScroll={true}
+                totalCount={charactersStore.characters.length}
+                endReached={fetchMoreData}
+                components={{ Footer: Loader }}
+                itemContent={(index) => {
+                    const character = charactersStore.characters[index];
+                    return (
+                        <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
+                            <Card card={character} />
+                        </Link>
+                    )
+                }}
+            />
         </>
     );
 }
