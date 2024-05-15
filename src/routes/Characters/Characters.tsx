@@ -13,15 +13,20 @@ export const ITEMS_PER_PAGE = 25;
 function Characters() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [hasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
         const fetchCharacters = async () => {
             setLoading(true);
             try {
-                await charactersStore.fetchCharacters(offset, charactersStore.searchTerm)
+                await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
                 setIsDataLoaded(true);
+                if (charactersStore.characters.length >= charactersStore.totalCharacters) {
+                    setHasMore(false);
+                } else {
+                    setHasMore(true);
+                }
             } catch (error) {
                 console.error('Error fetching characters:', error);
             } finally {
@@ -45,6 +50,7 @@ function Characters() {
             charactersStore.setSearchTerm(searchTerm);
             charactersStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
             setIsDataLoaded(false);
+            setHasMore(true);
         }
     };
 
@@ -57,6 +63,10 @@ function Characters() {
             const offset = nextPage * ITEMS_PER_PAGE;
             await charactersStore.fetchCharacters(offset, charactersStore.searchTerm);
             charactersStore.setCurrentPage(nextPage); // Обновляем текущую страницу после успешной загрузки
+
+            if (charactersStore.characters.length >= charactersStore.totalCharacters) {
+                setHasMore(false);
+            }
         } catch (error) {
             console.error('Error fetching more characters:', error);
         } finally {
@@ -73,7 +83,7 @@ function Characters() {
                 useWindowScroll={true}
                 totalCount={charactersStore.characters.length}
                 endReached={fetchMoreData}
-                components={{ Footer: Loader }}
+                components={{ Footer: loading && hasMore ? Loader : null }}
                 itemContent={(index) => {
                     const character = charactersStore.characters[index];
                     return (

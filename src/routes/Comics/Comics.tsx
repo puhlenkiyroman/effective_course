@@ -13,7 +13,7 @@ export const ITEMS_PER_PAGE = 25;
 function Comics() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [hasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
@@ -22,6 +22,11 @@ function Comics() {
             try {
                 await comicsStore.fetchComics(offset, comicsStore.searchTerm);
                 setIsDataLoaded(true);
+                if (comicsStore.comics.length >= comicsStore.totalComics) {
+                    setHasMore(false);
+                } else {
+                    setHasMore(true);
+                }
             } catch (error) {
                 console.error('Error fetching comics:', error);
             } finally {
@@ -45,6 +50,7 @@ function Comics() {
             comicsStore.setSearchTerm(searchTerm);
             comicsStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
             setIsDataLoaded(false);
+            setHasMore(true);
         }
     };
 
@@ -57,6 +63,10 @@ function Comics() {
             const offset = nextPage * ITEMS_PER_PAGE;
             await comicsStore.fetchComics(offset, comicsStore.searchTerm);
             comicsStore.setCurrentPage(nextPage); // Обновляем текущую страницу после успешной загрузки
+
+            if (comicsStore.comics.length >= comicsStore.totalComics) {
+                setHasMore(false);
+            }
         } catch (error) {
             console.error('Error fetching more comics:', error);
         } finally {
@@ -73,7 +83,7 @@ function Comics() {
                 useWindowScroll={true}
                 totalCount={comicsStore.comics.length}
                 endReached={fetchMoreData}
-                components={{ Footer: Loader }}
+                components={{ Footer: loading && hasMore ? Loader : null }}
                 itemContent={(index) => {
                     const comic = comicsStore.comics[index];
                     return (
