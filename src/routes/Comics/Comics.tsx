@@ -5,14 +5,15 @@ import styles from './Comics.module.css';
 import Search from '../../components/Search';
 import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
-import ReactPaginate from "react-paginate";
 import Loader from "../../components/Loader/Loader.tsx";
+import {VirtuosoGrid} from "react-virtuoso";
 
 export const ITEMS_PER_PAGE = 25;
 
 function Comics() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
 
     useEffect(() => {
         const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
@@ -21,6 +22,11 @@ function Comics() {
             try {
                 await comicsStore.fetchComics(offset, comicsStore.searchTerm);
                 setIsDataLoaded(true);
+                if (comicsStore.comics.length >= comicsStore.totalComics) {
+                    setHasMore(false);
+                } else {
+                    setHasMore(true);
+                }
             } catch (error) {
                 console.error('Error fetching comics:', error);
             } finally {
@@ -39,18 +45,32 @@ function Comics() {
         comicsStore.setTotalPages(calculatedTotalPages);
     }, [comicsStore.totalComics]);
 
-    const handlePageChange = ({ selected }: { selected: number }) => {
-        if (!loading) {
-            comicsStore.setCurrentPage(selected);
-            setIsDataLoaded(false);
-        }
-    };
-
     const handleSearch = (searchTerm: string) => {
         if (!loading) {
             comicsStore.setSearchTerm(searchTerm);
             comicsStore.setCurrentPage(0); // Сбросить страницу на первую при поиске
             setIsDataLoaded(false);
+            setHasMore(true);
+        }
+    };
+
+    const fetchMoreData = async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const nextPage = comicsStore.currentPage + 1;
+            const offset = nextPage * ITEMS_PER_PAGE;
+            await comicsStore.fetchComics(offset, comicsStore.searchTerm);
+            comicsStore.setCurrentPage(nextPage); // Обновляем текущую страницу после успешной загрузки
+
+            if (comicsStore.comics.length >= comicsStore.totalComics) {
+                setHasMore(false);
+            }
+        } catch (error) {
+            console.error('Error fetching more comics:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -58,29 +78,20 @@ function Comics() {
         <>
             <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
             <Search onSearch={handleSearch} />
-            {loading ? (
-                <Loader />
-            ) : (
-                <div className={styles.comics_container}>
-                    {comicsStore.comics.map(comic => (
+            <VirtuosoGrid
+                listClassName={styles.comics_container}
+                useWindowScroll={true}
+                totalCount={comicsStore.comics.length}
+                endReached={fetchMoreData}
+                components={{ Footer: loading && hasMore ? Loader : null }}
+                itemContent={(index) => {
+                    const comic = comicsStore.comics[index];
+                    return (
                         <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
                             <Card card={comic} />
                         </Link>
-                    ))}
-                </div>
-            )}
-            <ReactPaginate
-                breakLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
-                    {"..."} </span>}
-                onPageChange={loading ? undefined : handlePageChange}
-                pageRangeDisplayed={1}
-                pageCount={comicsStore.totalPages}
-                containerClassName={styles.paginationContainer}
-                pageClassName={styles.page}
-                previousLabel={<span style={{color: 'red', display: 'inline-block', marginRight: '35px', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
-                    {"<"} </span>}
-                nextLabel={<span style={{color: 'red', display: 'inline-block', padding: '10px', cursor: 'pointer', userSelect: 'none'}}>
-                    {">"} </span>}
+                    )
+                }}
             />
         </>
     );

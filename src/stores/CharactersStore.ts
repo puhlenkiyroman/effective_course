@@ -41,7 +41,13 @@ class CharactersStore {
             }
             const { data, total } = response;
             runInAction(() => {
-                this.characters = data;
+                // Если это первая страница, просто устанавливаем данные
+                if (offset === 0) {
+                    this.characters = data;
+                } else {
+                    // Если это не первая страница, добавляем данные к текущим данным
+                    this.characters = [...this.characters, ...data];
+                }
                 this.totalCharacters = total;
             });
         } catch (error) {
