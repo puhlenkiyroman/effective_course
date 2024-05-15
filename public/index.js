@@ -1,67 +1,62 @@
-import path from 'path';
-import express from 'express';
-import webPush from 'web-push';
-
-const app = express();
-const PORT = 3000;
-
-// Vapid keys
 const publicKey = 'BJXtHJEgXMd9P2p-X-HxbF4t7-xJnqy6EuyXeM1YN39911MlqG_UMnHJYaI695VG0FarpabdAIocgHBw-m_OYWs';
-const privateKey = '0h0uh89LT5hw-MqgpKQQ8fg4IfnzYEcCFOJwcNQSgQ8';
 
-const subscriptions = [];
+const messageContainer = document.getElementById('message');
 
-webPush.setVapidDetails(
-    'mailto:romantolstyaklitvinenko@gmail.com',
-    publicKey,
-    privateKey
-);
+const registerWorker = async () => {
+    try {
+        const registration = await navigator.serviceWorker.register('/sw.js');
+        console.log('Service Worker registered');
 
-app.use(express.json());
+        const subscription = await registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: publicKey,
+        });
+        console.log('Push Manager subscribed');
 
-app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
-
-app.use(express.static(path.join(process.cwd(), 'client')));
-
-app.get('/subscriptions', (req, res) => {
-    res.status(200).json(subscriptions);
-});
-
-app.post('/subscribe', (req, res) => {
-    const subscription = req.body;
-
-    if (
-        subscriptions.findIndex(
-            (subscriber) =>
-                subscriber.keys.p256h === subscription.keys.p256h &&
-                subscriber.keys.auth === subscription.keys.auth
-        ) === -1
-    ) {
-        console.log('Add subscription');
-        subscriptions.push(subscription);
+        await fetch('http://localhost:3000/subscribe', {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+                'content-type': 'application/json',
+            },
+        });
+        console.log('Subscribed to server');
+    } catch (error) {
+        console.error('Service Worker registration or subscription failed:', error);
     }
+};
 
-    res.status(201).end();
-});
-
-app.post('/send-notification', async (req, res) => {
-    const payload = JSON.stringify(req.body);
-
-    subscriptions.forEach(async (subscription) => {
-        try {
-            await webPush.sendNotification(subscription, payload);
-        } catch (error) {
-            console.error('Error sending notification:', error);
+const requestNotificationPermission = async () => {
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            await registerWorker();
+        } else {
+            console.error('Permission not granted for Notification');
         }
-    });
+    } catch (error) {
+        console.error('Error requesting notification permission:', error);
+    }
+};
 
-    res.status(200).end();
-});
+const init = async () => {
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+            console.log(event);
+            messageContainer.innerText = event.data.msg;
+            setTimeout(() => {
+                messageContainer.innerText = '';
+            }, 5000);
+        });
 
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-});
+        try {
+            await requestNotificationPermission();
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.log('Push Notifications are not supported');
+    }
+};
+
+init();
