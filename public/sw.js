@@ -4,7 +4,7 @@ const urlsToCache = [
     '/index.html',
     '/manifest.json',
     '/src/main.tsx',
-    '/index.js',
+    '/index.tsx',
 ];
 
 // Установка и кэширование ресурсов
