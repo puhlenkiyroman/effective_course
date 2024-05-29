@@ -12,7 +12,6 @@
   "dependencies": {
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.6.8",
-    "express": "^4.19.2",
     "m5": "^0.1.0",
     "md5": "^2.3.0",
     "mobx": "^6.12.0",
