@@ -1,10 +1,10 @@
-.localizationContainer {
+.themeContainer {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.languageSelector {
+.themeSelector {
     padding: 8px 12px;
     font-size: 16px;
     border-radius: 8px;
@@ -15,6 +15,14 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-.languageSelector:hover {
+.themeSelector:hover {
     background-color: #ff383e;
+}
+
+.text {
+    color: var(--color-text);
+}
+
+.background {
+    background-color: var(--color-bg);
 }

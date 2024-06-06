@@ -5,11 +5,11 @@ import enTranslation from './en.json';
 import esTranslation from './ru.json';
 
 export const locales: Resource = {
-    en: {
+    EN: {
         title: 'English',
         translation: enTranslation
     },
-    ru: {
+    RU: {
         title: 'Russian',
         translation: esTranslation
     }
