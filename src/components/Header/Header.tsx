@@ -1,7 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import styles from './Header.module.css';
+import Localization from '../../routes/Localization';
+import { useTranslation } from 'react-i18next';
 
 function Header() {
+    const { t } = useTranslation();
+
     return (
         <header className={styles.header}>
             <NavLink to="/" className={styles.logoLink}>
@@ -9,10 +13,11 @@ function Header() {
             </NavLink>
             <nav className={styles.navigation}>
                 <ul className={styles.navList}>
-                    <li><NavLink to="/characters" className={styles.link}>Characters</NavLink></li>
-                    <li><NavLink to="/comics" className={styles.link}>Comics</NavLink></li>
-                    <li><NavLink to="/favourites" className={styles.link}>Favourites</NavLink></li>
+                    <li><NavLink to="/characters" className={styles.link}>{t('Characters')}</NavLink></li>
+                    <li><NavLink to="/comics" className={styles.link}>{t('Comics')}</NavLink></li>
+                    <li><NavLink to="/favourites" className={styles.link}>{t('Favourites')}</NavLink></li>
                 </ul>
+                <Localization />
             </nav>
         </header>
     );

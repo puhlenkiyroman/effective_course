@@ -7,6 +7,7 @@ import { charactersStore } from '../../stores/CharactersStore';
 import { observer } from 'mobx-react-lite';
 import { VirtuosoGrid } from 'react-virtuoso';
 import Loader from "../../components/Loader/Loader.tsx";
+import { useTranslation } from 'react-i18next';
 
 export const ITEMS_PER_PAGE = 25;
 
@@ -14,6 +15,9 @@ function Characters() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
@@ -76,7 +80,7 @@ function Characters() {
 
     return (
         <>
-            <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
+            <h1>{t('Characters')} <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
             <Search onSearch={handleSearch} />
             <VirtuosoGrid
                 listClassName={styles.characters_container}

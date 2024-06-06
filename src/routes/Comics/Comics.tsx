@@ -7,6 +7,7 @@ import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
 import Loader from "../../components/Loader/Loader.tsx";
 import {VirtuosoGrid} from "react-virtuoso";
+import { useTranslation } from 'react-i18next';
 
 export const ITEMS_PER_PAGE = 25;
 
@@ -14,6 +15,8 @@ function Comics() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
@@ -76,7 +79,7 @@ function Comics() {
 
     return (
         <>
-            <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
+            <h1>{t('Comics')} <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
             <Search onSearch={handleSearch} />
             <VirtuosoGrid
                 listClassName={styles.comics_container}

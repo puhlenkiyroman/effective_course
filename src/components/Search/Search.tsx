@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from "./Search.module.css";
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     onSearch: (searchTerm: string) => void;
@@ -7,6 +8,8 @@ interface Props {
 
 function Search({ onSearch }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
+
+    const { t } = useTranslation();
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -37,7 +40,7 @@ function Search({ onSearch }: Props) {
                 className={styles.search_button}
                 onClick={handleSearchClick}
             >
-                SEARCH
+                {t('Search')}
             </button>
         </div>
     );
