@@ -5,10 +5,12 @@ import Characters from './routes/Characters';
 import CharacterDetails from './routes/Characters/CharacterDetails';
 import Favourites from "./routes/Favourites";
 import Layout from './components/Layout';
+import PushNotification from './index.tsx';
 import './App.css';
 function App() {
     return (
         <Router>
+            <PushNotification />
             <Routes>
                 <Route
                     path="/"
