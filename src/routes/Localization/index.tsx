@@ -4,7 +4,7 @@ import { localesKeys } from '../../localization';
 import styles from './Localization.module.css';
 
 const Localization: FC = () => {
-    const {t, i18n } = useTranslation();
+    const {i18n } = useTranslation();
 
     const changeLanguageHandler: ChangeEventHandler<HTMLSelectElement> = (event) => {
         i18n.changeLanguage(event.target.value);

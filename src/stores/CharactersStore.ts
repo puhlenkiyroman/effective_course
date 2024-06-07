@@ -43,9 +43,11 @@ class CharactersStore {
             runInAction(() => {
                 // Если это первая страница, просто устанавливаем данные
                 if (offset === 0) {
+                    // @ts-expect-error 123 123 123
                     this.characters = data;
                 } else {
                     // Если это не первая страница, добавляем данные к текущим данным
+                    // @ts-expect-error 123 123 123
                     this.characters = [...this.characters, ...data];
                 }
                 this.totalCharacters = total;

@@ -78,6 +78,14 @@ function Characters() {
         }
     };
 
+    const handleLike = (id: number) => {
+        console.log('Liked character with id:', id);
+    };
+
+    const handleClick = (id: number) => {
+        console.log('Clicked character with id:', id);
+    };
+
     return (
         <>
             <h1>{t('Characters')} <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
@@ -87,12 +95,12 @@ function Characters() {
                 useWindowScroll={true}
                 totalCount={charactersStore.characters.length}
                 endReached={fetchMoreData}
-                components={{ Footer: loading && hasMore ? Loader : null }}
+                components={{ Footer: loading && hasMore ? Loader : undefined }}
                 itemContent={(index) => {
                     const character = charactersStore.characters[index];
                     return (
                         <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
-                            <Card card={character} />
+                            <Card card={character} onLike={() => handleLike(character.id)} onClick={() => handleClick(character.id)} />
                         </Link>
                     )
                 }}

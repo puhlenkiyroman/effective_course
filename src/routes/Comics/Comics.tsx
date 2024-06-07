@@ -77,6 +77,14 @@ function Comics() {
         }
     };
 
+    const handleLike = (id: number) => {
+        console.log('Liked сomic with id:', id);
+    };
+
+    const handleClick = (id: number) => {
+        console.log('Clicked comic with id:', id);
+    };
+
     return (
         <>
             <h1>{t('Comics')} <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
@@ -86,12 +94,12 @@ function Comics() {
                 useWindowScroll={true}
                 totalCount={comicsStore.comics.length}
                 endReached={fetchMoreData}
-                components={{ Footer: loading && hasMore ? Loader : null }}
+                components={{ Footer: loading && hasMore ? Loader : undefined }}
                 itemContent={(index) => {
                     const comic = comicsStore.comics[index];
                     return (
                         <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
-                            <Card card={comic} />
+                            <Card card={comic} onLike={() => handleLike(comic.id)} onClick={() => handleClick(comic.id)} />
                         </Link>
                     )
                 }}

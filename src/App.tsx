@@ -15,7 +15,6 @@ function App() {
                 <Route
                     path="/"
                     element={<Layout />}
-                    className={(match, location) => (location.pathname === '/' || location.pathname === '/characters') ? 'active' : ''}
                 >
                     <Route index element={<Characters />} /> {/*чтобы пока что на главной странице были characters*/}
                     <Route path="/comics" element={<Comics />} />
