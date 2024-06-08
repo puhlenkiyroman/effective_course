@@ -27,3 +27,8 @@ https://puhlenkiyroman.github.io/effective_course/
 
 
 # Screens
+
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/e7e2ac5f-0071-49a9-89d7-2bd9bb300eb6)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/6b17520f-2b85-480f-8ff2-d93feed86a02)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/ad2d599b-ec0e-4a2d-9c25-6584f36e2cec)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/70dcfd8e-0480-481a-97b7-9ac46aea8c87)
