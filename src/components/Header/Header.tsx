@@ -10,7 +10,7 @@ function Header() {
     return (
         <header className={styles.header}>
             <NavLink to="/" className={styles.logoLink}>
-                <img src="/marvel_logo.svg" alt="Marvel Logo" className={styles.logo} />
+                <img src="public/marvel_logo.svg" alt="Marvel Logo" className={styles.logo} />
             </NavLink>
             <nav className={styles.navigation}>
                 <ul className={styles.navList}>
