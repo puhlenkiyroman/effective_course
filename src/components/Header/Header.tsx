@@ -3,6 +3,7 @@ import styles from './Header.module.css';
 import Localization from '../../routes/Localization';
 import { useTranslation } from 'react-i18next';
 import Theme from '../../routes/Theme';
+import logo from '../../../public/marvel_logo.svg';
 
 function Header() {
     const { t } = useTranslation();
@@ -10,7 +11,7 @@ function Header() {
     return (
         <header className={styles.header}>
             <NavLink to="/" className={styles.logoLink}>
-                <img src="public/marvel_logo.svg" alt="Marvel Logo" className={styles.logo} />
+                <img src={logo} alt="Marvel Logo" className={styles.logo} />
             </NavLink>
             <nav className={styles.navigation}>
                 <ul className={styles.navList}>
