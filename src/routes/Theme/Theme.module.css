@@ -26,3 +26,38 @@
 .background {
     background-color: var(--color-bg);
 }
+
+@media screen and (max-width: 800px) {
+    .themeSelector {
+        padding: 6px 10px;
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .themeSelector {
+        padding: 3px 6px;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .themeSelector {
+        padding: 2px 5px;
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .themeSelector {
+        padding: 2px 5px;
+        font-size: 8px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .themeSelector {
+        padding: 1px 4px;
+        font-size: 8px;
+    }
+}
