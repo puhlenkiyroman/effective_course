@@ -7,6 +7,7 @@ import { charactersStore } from '../../stores/CharactersStore';
 import { observer } from 'mobx-react-lite';
 import { VirtuosoGrid } from 'react-virtuoso';
 import Loader from "../../components/Loader/Loader.tsx";
+import { useTranslation } from 'react-i18next';
 
 export const ITEMS_PER_PAGE = 25;
 
@@ -14,6 +15,9 @@ function Characters() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         const offset = charactersStore.currentPage * ITEMS_PER_PAGE;
@@ -74,21 +78,29 @@ function Characters() {
         }
     };
 
+    const handleLike = (id: number) => {
+        console.log('Liked character with id:', id);
+    };
+
+    const handleClick = (id: number) => {
+        console.log('Clicked character with id:', id);
+    };
+
     return (
         <>
-            <h1>Characters <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
+            <h1>{t('Characters')} <span className={styles.charactersCount}>({charactersStore.totalCharacters})</span></h1>
             <Search onSearch={handleSearch} />
             <VirtuosoGrid
                 listClassName={styles.characters_container}
                 useWindowScroll={true}
                 totalCount={charactersStore.characters.length}
                 endReached={fetchMoreData}
-                components={{ Footer: loading && hasMore ? Loader : null }}
+                components={{ Footer: loading && hasMore ? Loader : undefined }}
                 itemContent={(index) => {
                     const character = charactersStore.characters[index];
                     return (
                         <Link key={character.id} to={`/characters/${character.id}`} className={styles.character_link}>
-                            <Card card={character} />
+                            <Card card={character} onLike={() => handleLike(character.id)} onClick={() => handleClick(character.id)} />
                         </Link>
                     )
                 }}

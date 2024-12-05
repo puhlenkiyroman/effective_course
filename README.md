@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite App
+Project about Marvel comics and characters.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is developed using React + TypeScript + Vite. This is frontend part, backend part - `https://github.com/puhlenkiyroman/effective_course_backend`
 
-Currently, two official plugins are available:
+Information about comics, characters was taken from Marvel API - `https://developer.marvel.com`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Technologies
+- NodeJs: v18.18.0
+- React: v18.2.0
+- TypeScript: v5.2.2
+- Vite: v5.1.4
 
-## Expanding the ESLint configuration
+# Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+cd effective_course
+yarn install
+yarn dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Deploy
+
+The application has been deployed on Vercel
+
+https://puhlenkiyroman.github.io/effective_course/
+
+
+# Screens
+
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/e7e2ac5f-0071-49a9-89d7-2bd9bb300eb6)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/6b17520f-2b85-480f-8ff2-d93feed86a02)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/ad2d599b-ec0e-4a2d-9c25-6584f36e2cec)
+![image](https://github.com/puhlenkiyroman/effective_course/assets/80386499/70dcfd8e-0480-481a-97b7-9ac46aea8c87)

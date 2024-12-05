@@ -1,0 +1,55 @@
+.localizationContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.languageSelector {
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #e62429;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.languageSelector:hover {
+    background-color: #ff383e;
+}
+
+@media screen and (max-width: 800px) {
+    .languageSelector {
+        padding: 6px 10px;
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .languageSelector {
+        padding: 3px 6px;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .languageSelector {
+        padding: 2px 5px;
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .languageSelector {
+        padding: 2px 5px;
+        font-size: 9px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .languageSelector {
+        padding: 1px 4px;
+        font-size: 8px;
+    }
+}

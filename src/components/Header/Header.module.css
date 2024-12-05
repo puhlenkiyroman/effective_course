@@ -41,7 +41,7 @@
     color: yellow;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     .logo {
         color: red;
         height: 50px;
@@ -50,32 +50,85 @@
 
     .navList {
         font-size: 16px;
-    }
-}
-
-@media screen and (max-width: 476px) {
-    .logo {
-        color: red;
-        height: 50px;
-        width: 75px;
-    }
-
-    .navList {
-        font-size: 14px;
         padding-left: 5px;
         gap: 15px;
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 650px) {
     .logo {
         color: red;
-        height: 40px;
+        height: 35px;
+        width: 70px;
+    }
+
+    .navList {
+        font-size: 15px;
+        padding-left: 4px;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .logo {
+        color: red;
+        height: 30px;
+        width: 60px;
+    }
+
+    .navList {
+        font-size: 13px;
+        padding-left: 3px;
+        gap: 6px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo {
+        color: red;
+        height: 25px;
         width: 50px;
     }
 
     .navList {
-        font-size: 14px;
-        gap: 8px;
+        font-size: 11px;
+        gap: 3px;
+        padding: 0 20px 0 0;
+    }
+
+    .header {
+        padding: 25px 14px;
+    }
+}
+
+@media screen and (max-width: 415px) {
+    .logo {
+        color: red;
+        height: 20px;
+        width: 40px;
+    }
+
+    .navList {
+        font-size: 10px;
+    }
+
+    .header {
+        padding: 25px 14px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .logo {
+        color: red;
+        height: 15px;
+        width: 30px;
+    }
+
+    .navList {
+        font-size: 9px;
+    }
+
+    .header {
+        padding: 25px 10px;
     }
 }

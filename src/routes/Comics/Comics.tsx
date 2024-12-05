@@ -7,6 +7,7 @@ import { comicsStore } from "../../stores/ComicsStore";
 import { observer } from 'mobx-react-lite';
 import Loader from "../../components/Loader/Loader.tsx";
 import {VirtuosoGrid} from "react-virtuoso";
+import { useTranslation } from 'react-i18next';
 
 export const ITEMS_PER_PAGE = 25;
 
@@ -14,6 +15,8 @@ function Comics() {
     const [loading, setLoading] = useState(false);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const offset = comicsStore.currentPage * ITEMS_PER_PAGE;
@@ -74,21 +77,29 @@ function Comics() {
         }
     };
 
+    const handleLike = (id: number) => {
+        console.log('Liked сomic with id:', id);
+    };
+
+    const handleClick = (id: number) => {
+        console.log('Clicked comic with id:', id);
+    };
+
     return (
         <>
-            <h1>Comics <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
+            <h1>{t('Comics')} <span className={styles.comicsCount}>({comicsStore.totalComics})</span></h1>
             <Search onSearch={handleSearch} />
             <VirtuosoGrid
                 listClassName={styles.comics_container}
                 useWindowScroll={true}
                 totalCount={comicsStore.comics.length}
                 endReached={fetchMoreData}
-                components={{ Footer: loading && hasMore ? Loader : null }}
+                components={{ Footer: loading && hasMore ? Loader : undefined }}
                 itemContent={(index) => {
                     const comic = comicsStore.comics[index];
                     return (
                         <Link key={comic.id} to={`/comics/${comic.id}`} className={styles.comic_link}>
-                            <Card card={comic} />
+                            <Card card={comic} onLike={() => handleLike(comic.id)} onClick={() => handleClick(comic.id)} />
                         </Link>
                     )
                 }}

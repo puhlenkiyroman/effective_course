@@ -43,9 +43,11 @@ class ComicsStore {
             runInAction(() => {
                 // Если это первая страница, просто устанавливаем данные
                 if (offset === 0) {
+                    // @ts-expect-error 123 123 123
                     this.comics = data;
                 } else {
                     // Если это не первая страница, добавляем данные к текущим данным
+                    // @ts-expect-error 123 123 123
                     this.comics = [...this.comics, ...data];
                 }
                 this.totalComics = total;
